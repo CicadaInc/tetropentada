@@ -1,0 +1,29 @@
+{% extends "cover_base.html" %}
+
+{% block nav %}
+<li><a href="/main">Главная</a></li>
+<li class="active"><a href="/index/0">Вопрос - ответ</a></li>
+{% if session.get('username') %}
+    <li><a href="/sign_out">Выход</a></li>
+{% else %}
+    <li><a href="/registration">Регистрация</a></li>
+    <li><a href="/sign_in">Вход</a></li>
+{% endif %}
+{% endblock %}
+
+{% block site_wrapper %}
+<a href="/add_question">Добавить вопрос</a>
+{% if my_quests %}
+    <a href="/index/0">Все вопросы</a>
+{% else %}
+    <a href="/index/1">Мои вопросы</a>
+{% endif %}
+<div class="container">
+    {% for quest in questions %}
+        <h2>{{ quest.title }}</h2>
+        {% if my_quests %}
+            <a href="/delete_question/{{ quest.id }}">Удалить вопрос</a>
+        {% endif %}
+    {% endfor %}
+</div>
+{% endblock %}
