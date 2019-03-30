@@ -19,7 +19,7 @@
         узнавать для себя что-то новое</p>
     <p class="lead">
         {% if session.get('user_id') %}
-            <a href="/index" class="btn btn-lg btn-default">Вопрос - ответ</a>
+            <a href="/index/0" class="btn btn-lg btn-default">Вопрос - ответ</a>
         {% else %}
             <a href="/registration" class="btn btn-lg btn-default">Зарегистрироваться</a>
         {% endif %}

@@ -58,6 +58,11 @@ class AddQuestionForm(FlaskForm):
     submit = SubmitField('Добавить вопрос')
 
 
+class AnswerQuestionForm(FlaskForm):
+    content = TextAreaField(validators=[DataRequired()])
+    submit = SubmitField('Ответить')
+
+
 @app.route("/")
 @app.route("/main")
 def main():
@@ -98,7 +103,7 @@ def registration():
             db.session.commit()
             session['username'] = username
             session['user_id'] = user.id
-            return redirect("/index")
+            return redirect("/index/0")
         return render_template("wrong_registration.html", title='Tetropentada registration', form=form,
                                style=url_for('static', filename='sign_in.css'),
                                bootstrap=url_for('static', filename='Bootstrap v3.1.1/dist/css/bootstrap.min.css'))
@@ -132,6 +137,21 @@ def add_question():
             db.session.commit()
             return redirect("/index/1")
         return render_template("add_news.html", title='Tetropentada add_news', form=form,
+                               style=url_for('static', filename='sign_in.css'),
+                               bootstrap=url_for('static', filename='Bootstrap v3.1.1/dist/css/bootstrap.min.css'))
+    return redirect("/sign_in")
+
+
+@app.route("/single_question/<int:id>")
+def single_question(id):
+    if session.get('username'):
+        form = AnswerQuestionForm()
+        if form.validate_on_submit():
+            pass
+        question = Question.query.filter_by(id=id).first()
+        username = User.query.filter_by(id=question.user_id).first().username
+        return render_template("single_question.html", title='Tetropentada single question',
+                               question=question, username=username, form=form,
                                style=url_for('static', filename='sign_in.css'),
                                bootstrap=url_for('static', filename='Bootstrap v3.1.1/dist/css/bootstrap.min.css'))
     return redirect("/sign_in")

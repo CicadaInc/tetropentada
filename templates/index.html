@@ -11,19 +11,23 @@
 {% endif %}
 {% endblock %}
 
-{% block site_wrapper %}
-<a href="/add_question">Добавить вопрос</a>
-{% if my_quests %}
-    <a href="/index/0">Все вопросы</a>
-{% else %}
-    <a href="/index/1">Мои вопросы</a>
-{% endif %}
+<p>
+    {% block site_wrapper %}
+    <a href="/add_question">Добавить вопрос</a>
+    {% if my_quests %}
+        <a href="/index/0">Все вопросы</a>
+    {% else %}
+        <a href="/index/1">Мои вопросы</a>
+    {% endif %}
+</p>
 <div class="container">
     {% for quest in questions %}
-        <h2>{{ quest.title }}</h2>
-        {% if my_quests %}
-            <a href="/delete_question/{{ quest.id }}">Удалить вопрос</a>
-        {% endif %}
+        <p>
+            <a href="/single_question/{{ quest.id }}">{{ quest.title }}</a>
+            {% if my_quests %}
+                <a href="/delete_question/{{ quest.id }}">Удалить вопрос</a>
+            {% endif %}
+        </p>
     {% endfor %}
 </div>
 {% endblock %}
