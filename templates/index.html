@@ -2,7 +2,7 @@
 
 {% block nav %}
 <li><a href="/main">Главная</a></li>
-<li class="active"><a href="/index/0">Вопрос - ответ</a></li>
+<li class="active"><a href="/index/0">Вопросы</a></li>
 {% if session.get('username') %}
     <li><a href="/sign_out">Выход</a></li>
 {% else %}
@@ -20,7 +20,7 @@
         <a href="/index/1">Мои вопросы</a>
     {% endif %}
 </p>
-<div class="container">
+<!-- <div class="container">
     {% for quest in questions %}
         <p>
             <a href="/single_question/{{ quest.id }}">{{ quest.title }}</a>
@@ -29,5 +29,5 @@
             {% endif %}
         </p>
     {% endfor %}
-</div>
+</div> -->
 {% endblock %}

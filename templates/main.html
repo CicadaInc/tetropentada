@@ -2,7 +2,7 @@
 
 {% block nav %}
 <li class="active"><a href="#">Главная</a></li>
-<li><a href="/index/0">Вопрос - ответ</a></li>
+<li><a href="/index/0">Вопросы</a></li>
 {% if session.get('user_id') %}
     <li><a href="/sign_out">Выход</a></li>
 {% else %}
@@ -13,13 +13,11 @@
 
 {% block cover_container %}
 <div class="inner cover">
-    <h1 class="cover-heading">Вопрос - ответ на Tetropentada</h1>
-    <p class="lead">Tetropentada - вэб-сайт, созданный для того, чтобы помочь вам ответить на возникшие
-        вопросы путем их обсуждения с другими пользователями. Здесь вы можете спрашивать, отвечать и
-        узнавать для себя что-то новое</p>
+    <h1 class="cover-heading">Tetropentada</h1>
+    <p class="lead">Задавай вопросы, делись ответами и борозди просторы интернета!</p>
     <p class="lead">
         {% if session.get('user_id') %}
-            <a href="/index/0" class="btn btn-lg btn-default">Вопрос - ответ</a>
+            <a href="/index/0" class="btn btn-lg btn-default">Вопросы</a>
         {% else %}
             <a href="/registration" class="btn btn-lg btn-default">Зарегистрироваться</a>
         {% endif %}
