@@ -35,6 +35,21 @@ class Question(db.Model):
             self.id, self.title, self.content, self.user_id)
 
 
+class Answer(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    content = db.Column(db.String(80), unique=False, nullable=False)
+    question_id = db.Column(db.Integer, db.ForeignKey('question.id'),
+                            nullable=False)
+    question = db.relationship('Question',
+                               backref=db.backref('Answers', lazy=True))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    user = db.relationship('User', backref=db.backref('Answers', lazy=True))
+
+    def __repr__(self):
+        return '<Answer {} {} {} {}>'.format(
+            self.id, self.content, self.user_id, self.question_id)
+
+
 db.create_all()
 
 
@@ -169,16 +184,24 @@ def add_question():
     return redirect("/sign_in")
 
 
-@app.route("/single_question/<int:id>")
+@app.route("/single_question/<int:id>", methods=['POST', 'GET'])
 def single_question(id):
     if session.get('username'):
         form = AnswerQuestionForm()
         if form.validate_on_submit():
-            pass
+            user = User.query.filter_by(id=session['user_id']).first()
+            question = Question.query.filter_by(id=id).first()
+            answer = Answer(content=form.content.data,
+                            user_id=session['user_id'], question_id=id)
+            user.Answers.append(answer)
+            question.Answers.append(answer)
+            db.session.commit()
         question = Question.query.filter_by(id=id).first()
+        answers = Answer.query.filter_by(question_id=id)
         username = User.query.filter_by(id=question.user_id).first().username
         return render_template("single_question.html", title='Tetropentada',
                                question=question, username=username, form=form,
+                               answers=answers, User=User,
                                style=url_for('static', filename='cover.css'),
                                bootstrap=url_for('static',
                                                  filename='Bootstrap v3.1.1/dist/css/bootstrap.min.css'),
