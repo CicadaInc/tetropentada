@@ -15,8 +15,8 @@ a:hover {
 .btn-default:focus {
   color: #333;
   text-shadow: none; /* Prevent inheritence from `body` */
-  background-color: #fff;
-  border: 1px solid #fff;
+  background-color: #428bca;
+  border: 1px solid #357ebd;
 }
 
 
@@ -29,14 +29,20 @@ body {
   height: 100%;
   background-color: #333;
   background-image: url(images/bg.jpg);
+  /*background-position: position: fixed;*/
+  background-repeat: no-repeat;
+  /*
   background-repeat: repeat;
   background-position: left top;
+  */
+  background-size: cover;
+  background-attachment:fixed;
 }
 body {
   color: #fff;
   text-align: center;
-  text-shadow: 0 1px 3px rgba(0,0,0,.5);
-  box-shadow: inset 0 0 100px rgba(0,0,0,.5);
+  /*text-shadow: 0 1px 3px rgba(0,0,0,.5);*/
+  /*box-shadow: inset 0 0 100px rgba(0,0,0,.5);*/
 }
 
 /* Extra markup and styles for table-esque vertical and horizontal centering */
@@ -55,11 +61,55 @@ body {
   margin-left: auto;
 }
 
+.menu-wrapper {
+  position: fixed;
+  top: 0px;
+  display: table;
+  width: 100%;
+  background-color: rgb(79, 90, 110);
+  height: 88px;
+}
+
+.menu-wrapper-inner {
+   display: table-cell;
+    vertical-align: top; 
+}
+
+.container {
+  width: 800px;
+  background-color: #fff;
+  color: #444;
+  text-align: left;
+  padding: 20px 20px 20px 30px;
+}
+
+.container a {
+  color: #444;
+}
+
+a.btn {
+  color: #fff;
+}
+
+a.btn:hover {
+  color: #eee;
+}
+
+.add-question-button {
+  position: fixed;
+  top: 120px;
+  right: 40px;
+}
+
 /* Padding for spacing */
 .inner {
   padding: 30px;
 }
 
+input {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
 
 /*
  * Header
@@ -145,7 +195,9 @@ body {
   }
   /* Start the vertical centering */
   .site-wrapper-inner {
-    vertical-align: middle;
+    padding-top: 95px;
+    font-size: 18px;
+    /*vertical-align: middle;*/
   }
   /* Handle the widths */
   .masthead,

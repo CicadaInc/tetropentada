@@ -2,10 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="740a9ea1-d2f8-4bac-b3f4-2f6112e2ec50" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/tetropentada.iml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/images/bg1.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/images/icon2.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/templates/questions.html" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/images/bg.jpg" afterPath="$PROJECT_DIR$/static/images/bg.jpg" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/images/icon.png" afterPath="$PROJECT_DIR$/static/images/icon.png" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tetropentada.db" afterPath="$PROJECT_DIR$/tetropentada.db" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/cover.css" afterPath="$PROJECT_DIR$/static/cover.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/sign_in.css" afterPath="$PROJECT_DIR$/static/sign_in.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/add_news.html" afterPath="$PROJECT_DIR$/templates/add_news.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/base.html" afterPath="$PROJECT_DIR$/templates/base.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/cover_base.html" afterPath="$PROJECT_DIR$/templates/cover_base.html" />
@@ -28,11 +37,9 @@
       <file leaf-file-name="tetropentada.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/tetropentada.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="408">
-              <caret line="138" column="40" lean-forward="false" selection-start-line="138" selection-start-column="40" selection-end-line="138" selection-end-column="40" />
-              <folding>
-                <element signature="e#0#68#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="297">
+              <caret line="94" column="0" lean-forward="true" selection-start-line="94" selection-start-column="0" selection-end-line="94" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -41,25 +48,35 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>single</find>
       <find>вопрос -</find>
       <find>вопрос -</find>
       <find>Задавай вопросы, делись ответами и борозди просторы интернета!</find>
       <find>Вопрос - ответ</find>
-      <find>main</find>
       <find>tetropent</find>
       <find>b</find>
       <find>bg</find>
       <find>jpg</find>
-      <find>icon</find>
-      <find>html</find>
       <find>tetrop</find>
       <find>my_quests</find>
-      <find>index</find>
       <find>cover</find>
+      <find>html</find>
+      <find>index</find>
+      <find>0</find>
+      <find>single</find>
+      <find>add_q</find>
+      <find>css</find>
+      <find>tetr</find>
+      <find>icon</find>
+      <find>render</find>
+      <find>tetro</find>
+      <find>main</find>
+      <find>regis</find>
+      <find>sign_in</find>
+      <find>sign_in.css</find>
     </findStrings>
     <replaceStrings>
       <replace>Вопросы</replace>
+      <replace>cover.css</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -105,16 +122,6 @@
             <path>
               <item name="tetropentada" type="b2602c69:ProjectViewProjectNode" />
               <item name="tetropentada" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="tetropentada" type="b2602c69:ProjectViewProjectNode" />
-              <item name="tetropentada" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="tetropentada" type="b2602c69:ProjectViewProjectNode" />
-              <item name="tetropentada" type="462c0819:PsiDirectoryNode" />
-              <item name="templates" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -284,9 +291,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="153">
           <caret line="9" column="0" lean-forward="true" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
-          <folding>
-            <marker date="1553966738036" expanded="true" signature="600:643" ph="..." />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -300,11 +305,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/tetropentada.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
-          <caret line="138" column="40" lean-forward="false" selection-start-line="138" selection-start-column="40" selection-end-line="138" selection-end-column="40" />
-          <folding>
-            <element signature="e#0#68#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="297">
+          <caret line="94" column="0" lean-forward="true" selection-start-line="94" selection-start-column="0" selection-end-line="94" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>

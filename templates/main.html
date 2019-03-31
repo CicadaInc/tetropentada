@@ -2,7 +2,7 @@
 
 {% block nav %}
 <li class="active"><a href="#">Главная</a></li>
-<li><a href="/index/0">Вопросы</a></li>
+<li><a href="/index/0">Вопрос - ответ</a></li>
 {% if session.get('user_id') %}
     <li><a href="/sign_out">Выход</a></li>
 {% else %}
@@ -12,14 +12,15 @@
 {% endblock %}
 
 {% block cover_container %}
-<div class="inner cover">
+<div class="container">
     <h1 class="cover-heading">Tetropentada</h1>
-    <p class="lead">Задавай вопросы, делись ответами и борозди просторы интернета!</p>
+    <p class="lead">Задавайте вопросы, делитесь ответами и бороздите просторы интернета!</p>
     <p class="lead">
         {% if session.get('user_id') %}
-            <a href="/index/0" class="btn btn-lg btn-default">Вопросы</a>
+            <a href="/index/0" class="btn btn-lg btn-default">Вопрос - ответ</a>
         {% else %}
             <a href="/registration" class="btn btn-lg btn-default">Зарегистрироваться</a>
+            <a href="/sign_in" class="btn btn-lg btn-default">Авторизоваться</a>
         {% endif %}
     </p>
 </div>

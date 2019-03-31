@@ -39,6 +39,11 @@ body {
   border-top-right-radius: 0;
 }
 
+.form-input-question {
+  width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
 
 /*
  * Globals
@@ -102,6 +107,9 @@ body {
   padding: 30px;
 }
 
+.container a {
+  color: #444;
+}
 
 /*
  * Header
