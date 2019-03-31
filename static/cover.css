@@ -111,6 +111,15 @@ input {
   margin-bottom: 10px;
 }
 
+.container h5 {
+  width: 700px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: clip;
+  word-wrap: break-word;
+  white-space: pre-line;
+}
+
 /*
  * Header
  */

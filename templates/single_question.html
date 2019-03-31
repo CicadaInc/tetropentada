@@ -16,9 +16,18 @@
     <div>Вопрос задал: <a>{{ username }}</a></div>
     <h1>{{ question.title }}</h1>
     <h4>{{ question.content }}</h4>
-    <div class="form-input-question">
-        {{ form.content(class_="form-control", placeholder="Ваш ответ") }}
-        {{ form.submit(class_="btn btn-lg btn-success btn-block") }}
+    <div class="answer">
+        {% for answer in answers %}
+            <h4>{{ User.query.filter_by(id=answer.user_id).first().username }}</h4>
+            <h5>{{ answer.content }}</h5>
+        {% endfor %}
     </div>
+    <form class="form-signin" role="form" method="post">
+        {{ form.hidden_tag() }}
+        <div>
+            {{ form.content(class_="form-control", placeholder="Ваш ответ") }}
+            {{ form.submit(class_="btn btn-lg btn-success btn-block") }}
+        </div>
+    </form>
 </div>
 {% endblock %}
