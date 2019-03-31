@@ -1,8 +1,8 @@
 from flask import Flask, render_template, url_for, session, redirect
-from flask_wtf import FlaskForm
-from wtforms.validators import DataRequired
-from wtforms import StringField, PasswordField, SubmitField, TextAreaField
 from flask_sqlalchemy import SQLAlchemy
+from flask_wtf import FlaskForm
+from wtforms import StringField, PasswordField, SubmitField, TextAreaField
+from wtforms.validators import DataRequired
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'Супер секретный мод на майнкрафт'
@@ -79,18 +79,21 @@ def sign_in():
     if form.validate_on_submit():
         username = form.username.data
         password = form.password.data
-        user = User.query.filter_by(username=username).filter_by(password=password).first()
+        user = User.query.filter_by(username=username).filter_by(
+            password=password).first()
         if user:
             session['username'] = username
             session['user_id'] = user.id
             return redirect("/main")
-        return render_template("wrong_sign_in.html", title='Tetropentada', form=form,
-                               style=url_for('static', filename='sign_in.css'),
+        return render_template("wrong_sign_in.html", title='Tetropentada',
+                               form=form,
+                               style=url_for('static', filename='cover.css'),
                                bootstrap=url_for('static',
                                                  filename='Bootstrap v3.1.1/dist/css/bootstrap.min.css'),
-                               icon=url_for('static', filename='images/icon.png'))
+                               icon=url_for('static',
+                                            filename='images/icon.png'))
     return render_template("sign_in.html", title='Tetropentada', form=form,
-                           style=url_for('static', filename='sign_in.css'),
+                           style=url_for('static', filename='cover.css'),
                            bootstrap=url_for('static',
                                              filename='Bootstrap v3.1.1/dist/css/bootstrap.min.css'),
                            icon=url_for('static', filename='images/icon.png'))
@@ -109,13 +112,15 @@ def registration():
             session['username'] = username
             session['user_id'] = user.id
             return redirect("/index/0")
-        return render_template("wrong_registration.html", title='Tetropentada', form=form,
-                               style=url_for('static', filename='sign_in.css'),
+        return render_template("wrong_registration.html", title='Tetropentada',
+                               form=form,
+                               style=url_for('static', filename='cover.css'),
                                bootstrap=url_for('static',
                                                  filename='Bootstrap v3.1.1/dist/css/bootstrap.min.css'),
-                               icon=url_for('static', filename='images/icon.png'))
+                               icon=url_for('static',
+                                            filename='images/icon.png'))
     return render_template("registration.html", title='Tetropentada', form=form,
-                           style=url_for('static', filename='sign_in.css'),
+                           style=url_for('static', filename='cover.css'),
                            bootstrap=url_for('static',
                                              filename='Bootstrap v3.1.1/dist/css/bootstrap.min.css'),
                            icon=url_for('static', filename='images/icon.png'))
@@ -123,23 +128,24 @@ def registration():
 
 @app.route("/index/<int:my_quests>")
 def index(my_quests):
-    bootstrap_css = url_for('static', filename='Bootstrap v3.1.1/dist/css/bootstrap.min.css')
-    bootstrap_js = url_for('static', filename='Bootstrap v3.1.1/dist/js/bootstrap.min.js')
-    cover_css = url_for('static', filename='cover.css')
     if my_quests:
         if session.get('username'):
-            return render_template("index.html", title='Tetropentada', my_quests=True,
-                                   questions=Question.query.filter_by(user_id=session['user_id']),
-                                   cover_css=cover_css,
-                                   bootstrap_css=bootstrap_css,
-                                   bootstrap_js=bootstrap_js,
-                                   icon=url_for('static', filename='images/icon.png'))
+            return render_template("index.html", title='Tetropentada',
+                                   my_quests=True,
+                                   questions=Question.query.filter_by(
+                                       user_id=session['user_id']),
+                                   style=url_for('static',
+                                                 filename='cover.css'),
+                                   bootstrap=url_for('static',
+                                                     filename='Bootstrap v3.1.1/dist/css/bootstrap.min.css'),
+                                   icon=url_for('static',
+                                                filename='images/icon.png'))
         return redirect("/sign_in")
     return render_template("index.html", title='Tetropentada', my_quests=False,
-                           question_list=Question.query.all(),
-                           cover_css=cover_css,
-                           bootstrap_css=bootstrap_css,
-                           bootstrap_js=bootstrap_js,
+                           questions=Question.query.all(),
+                           style=url_for('static', filename='cover.css'),
+                           bootstrap=url_for('static',
+                                             filename='Bootstrap v3.1.1/dist/css/bootstrap.min.css'),
                            icon=url_for('static', filename='images/icon.png'))
 
 
@@ -149,15 +155,17 @@ def add_question():
         form = AddQuestionForm()
         if form.validate_on_submit():
             user = User.query.filter_by(id=session['user_id']).first()
-            user.Questions.append(Question(title=form.title.data, content=form.content.data,
-                                           user_id=session['user_id']))
+            user.Questions.append(
+                Question(title=form.title.data, content=form.content.data,
+                         user_id=session['user_id']))
             db.session.commit()
             return redirect("/index/1")
         return render_template("add_news.html", title='Tetropentada', form=form,
-                               style=url_for('static', filename='sign_in.css'),
+                               style=url_for('static', filename='cover.css'),
                                bootstrap=url_for('static',
                                                  filename='Bootstrap v3.1.1/dist/css/bootstrap.min.css'),
-                               icon=url_for('static', filename='images/icon.png'))
+                               icon=url_for('static',
+                                            filename='images/icon.png'))
     return redirect("/sign_in")
 
 
@@ -171,10 +179,11 @@ def single_question(id):
         username = User.query.filter_by(id=question.user_id).first().username
         return render_template("single_question.html", title='Tetropentada',
                                question=question, username=username, form=form,
-                               style=url_for('static', filename='sign_in.css'),
+                               style=url_for('static', filename='cover.css'),
                                bootstrap=url_for('static',
                                                  filename='Bootstrap v3.1.1/dist/css/bootstrap.min.css'),
-                               icon=url_for('static', filename='images/icon.png'))
+                               icon=url_for('static',
+                                            filename='images/icon.png'))
     return redirect("/sign_in")
 
 
@@ -192,4 +201,14 @@ def sign_out():
     return redirect("/main")
 
 
-app.run(port=8080, host='127.0.0.1')
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template("main.html", title='Tetropentada',
+                           style=url_for('static', filename='cover.css'),
+                           bootstrap=url_for('static',
+                                             filename='Bootstrap v3.1.1/dist/css/bootstrap.min.css'),
+                           icon=url_for('static', filename='images/icon.png'))
+
+
+if __name__ == '__main__':
+    app.run(port=8080, host='127.0.0.1', debug=True, use_reloader=True)
