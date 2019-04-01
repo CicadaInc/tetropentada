@@ -4,7 +4,7 @@
 <li><a href="/main">Главная</a></li>
 <li class="active"><a href="/index/0">Вопрос - ответ</a></li>
 {% if session.get('username') %}
-    <li><a href="/profile">{{ user }}</a></li>
+    <li><a href="/profile/{{ session['user_id'] }}">{{ session['username'] }}</a></li>
     <li><a href="/sign_out">Выход</a></li>
 {% else %}
     <li><a href="/registration">Регистрация</a></li>
@@ -14,15 +14,23 @@
 
 {% block site_wrapper %}
 <div class="container">
-    <div>Вопрос задал: <a>{{ username }}</a></div>
+    <div>
+        Вопрос задал: <a href="/profile/{{ User.query.filter_by(username=username).first().id }}">{{ username }}</a>
+    </div>
     <h1>{{ question.title }}</h1>
-    <h4>{{ question.content }}</h4>
+    <h4>{{ question.content }}</h4><br>
+
     <div class="answer">
         {% for answer in answers %}
-            <h4>{{ User.query.filter_by(id=answer.user_id).first().username }}</h4>
+            <h4>
+                <a href="/profile/{{ User.query.filter_by(id=answer.user_id).first().id }}">
+                    {{ User.query.filter_by(id=answer.user_id).first().username }}
+                </a>
+            </h4>
             <h5>{{ answer.content }}</h5>
         {% endfor %}
-    </div>
+    </div><br>
+
     <form class="form-signin" role="form" method="post">
         {{ form.hidden_tag() }}
         <div>

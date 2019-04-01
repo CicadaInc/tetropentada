@@ -9,10 +9,7 @@
 
 {% block new_fields %}
 <h2 class="form-signin-heading">Регистрация</h2>
-<div>
-    {{ form.name(class_="form-control", placeholder="Ваше имя") }}
-</div>
-<div>
-    {{ form.surname(class_="form-control", placeholder="Ваша фамилия") }}
-</div>
+<div>{{ form.name(class_="form-control", placeholder="Ваше имя") }}</div>
+<div>{{ form.surname(class_="form-control", placeholder="Ваша фамилия") }}</div>
+<div>{{ form.mail(class_="form-control", placeholder="Ваш e-mail") }}</div>
 {% endblock %}

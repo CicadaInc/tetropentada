@@ -17,13 +17,14 @@ db = SQLAlchemy(app)
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
+    mail = db.Column(db.String(80), unique=True, nullable=False)
     password = db.Column(db.String(80), unique=False, nullable=False)
     name = db.Column(db.String(80), unique=False, nullable=False)
     surname = db.Column(db.String(80), unique=False, nullable=False)
 
     def __repr__(self):
-        return '<User {} {} {} {} {}>'.format(
-            self.id, self.username, self.password, self.name, self.surname)
+        return '<User {} {} {} {} {} {}>'.format(
+            self.id, self.username, self.mail, self.password, self.name, self.surname)
 
 
 class Question(db.Model):
@@ -64,6 +65,7 @@ class RegistrationForm(FlaskForm):
     name = StringField(validators=[DataRequired()])
     surname = StringField(validators=[DataRequired()])
     username = StringField(validators=[DataRequired()])
+    mail = StringField(validators=[DataRequired()])
     password = PasswordField(validators=[DataRequired()])
     submit = SubmitField('Зарегистрироваться')
 
@@ -81,19 +83,25 @@ class AnswerQuestionForm(FlaskForm):
 
 def send_notification(question, user, answer, email):
     # Настройки
-    mail_sender = email
-    mail_receiver = 'tetropentada@mail.ru'
+    mail_sender = 'tetropentada@mail.ru'
+    mail_receiver = email
     username = user
     password = 'minecraft3301'
     server = smtplib.SMTP('smtp.mail.ru:587')
 
+    print(question)
+    print(user)
+    print(answer)
+    print(email)
+
     # Формируем тело письма
     subject = 'Вы получили ответ на свой вопрос!'
-    # subject = 'Приветик ' + mail_sender + '!' # + mail_sender
-    body = user + ' ответил на ваш вопрос: "' + question + '"!'
-    body += '"' + answer + '"'
+    body = str(user) + ' ответил на ваш вопрос "' + str(question) + '"!'
+    body += '"' + str(answer) + '"'
     msg = MIMEText(body, 'plain', 'utf-8')
     msg['Subject'] = Header(subject, 'utf-8')
+
+    print(body)
 
     # Отпавляем письмо
     server.starttls()
@@ -111,14 +119,12 @@ def main():
                                style=url_for('static', filename='cover.css'),
                                bootstrap=url_for('static',
                                                  filename='Bootstrap v3.1.1/dist/css/bootstrap.min.css'),
-                               icon=url_for('static', filename='images/icon.png'),
-                               user=session.get('username'))
-    else:
-        return render_template("main.html", title='Tetropentada',
-                               style=url_for('static', filename='cover.css'),
-                               bootstrap=url_for('static',
-                                                 filename='Bootstrap v3.1.1/dist/css/bootstrap.min.css'),
                                icon=url_for('static', filename='images/icon.png'))
+    return render_template("main.html", title='Tetropentada',
+                           style=url_for('static', filename='cover.css'),
+                           bootstrap=url_for('static',
+                                             filename='Bootstrap v3.1.1/dist/css/bootstrap.min.css'),
+                           icon=url_for('static', filename='images/icon.png'))
 
 
 @app.route("/sign_in", methods=['POST', 'GET'])
@@ -150,7 +156,7 @@ def registration():
     if form.validate_on_submit():
         username = form.username.data
         if not User.query.filter_by(username=username).first():
-            user = User(username=username, password=form.password.data,
+            user = User(username=username, mail=form.mail.data, password=form.password.data,
                         name=form.name.data, surname=form.surname.data)
             db.session.add(user)
             db.session.commit()
@@ -178,17 +184,8 @@ def index(my_quests):
                                    style=url_for('static', filename='cover.css'),
                                    bootstrap=url_for('static',
                                                      filename='Bootstrap v3.1.1/dist/css/bootstrap.min.css'),
-                                   icon=url_for('static', filename='images/icon.png'),
-                                   user=session.get('username'))
+                                   icon=url_for('static', filename='images/icon.png'))
         return redirect("/sign_in")
-    elif session.get('username'):
-        return render_template("index.html", title='Tetropentada', my_quests=False,
-                               questions=Question.query.all(),
-                               style=url_for('static', filename='cover.css'),
-                               bootstrap=url_for('static',
-                                                 filename='Bootstrap v3.1.1/dist/css/bootstrap.min.css'),
-                               icon=url_for('static', filename='images/icon.png'),
-                               user=session.get('username'))
     return render_template("index.html", title='Tetropentada', my_quests=False,
                            questions=Question.query.all(),
                            style=url_for('static', filename='cover.css'),
@@ -207,53 +204,51 @@ def add_question():
                                            user_id=session['user_id']))
             db.session.commit()
             return redirect("/index/1")
-        return render_template("add_news.html", title='Tetropentada', form=form,
+        return render_template("add_question.html", title='Tetropentada', form=form,
+                               style=url_for('static', filename='cover.css'),
+                               bootstrap=url_for('static',
+                                                 filename='Bootstrap v3.1.1/dist/css/bootstrap.min.css'),
+                               icon=url_for('static', filename='images/icon.png'))
+    return redirect("/sign_in")
+
+
+@app.route("/profile/<int:id>")
+def profile(id):
+    if session.get('username'):
+        return render_template("profile.html", title='Tetropentada',
                                style=url_for('static', filename='cover.css'),
                                bootstrap=url_for('static',
                                                  filename='Bootstrap v3.1.1/dist/css/bootstrap.min.css'),
                                icon=url_for('static', filename='images/icon.png'),
-                               user=session.get('username'))
+                               avatar=url_for('static', filename='images/ava.png'),
+                               username=User.query.filter_by(id=id).first().username)
     return redirect("/sign_in")
-
-
-@app.route("/profile", methods=['POST', 'GET'])
-def profile():
-    return render_template("profile.html", title='Tetropentada',
-                           style=url_for('static', filename='cover.css'),
-                           bootstrap=url_for('static',
-                                             filename='Bootstrap v3.1.1/dist/css/bootstrap.min.css'),
-                           icon=url_for('static', filename='images/icon.png'),
-                           user=session.get('username'),
-                           avatar=url_for('static', filename='images/ava.png'),
-                           username=session.get('username'))
 
 
 @app.route("/single_question/<int:id>", methods=['POST', 'GET'])
 def single_question(id):
-    if session.get('username'):
-        form = AnswerQuestionForm()
-        if form.validate_on_submit():
+    form = AnswerQuestionForm()
+    if form.validate_on_submit():
+        if session.get('username'):
             user = User.query.filter_by(id=session['user_id']).first()
             question = Question.query.filter_by(id=id).first()
             answer = Answer(content=form.content.data, user_id=session['user_id'], question_id=id)
             user.Answers.append(answer)
             question.Answers.append(answer)
             db.session.commit()
-            print(question)
-            print(user)
-            print(answer)
-        question = Question.query.filter_by(id=id).first()
-        answers = Answer.query.filter_by(question_id=id)
-        username = User.query.filter_by(id=question.user_id).first().username
-        return render_template("single_question.html", title='Tetropentada',
-                               question=question, username=username, form=form, answers=answers,
-                               User=User,
-                               style=url_for('static', filename='cover.css'),
-                               bootstrap=url_for('static',
-                                                 filename='Bootstrap v3.1.1/dist/css/bootstrap.min.css'),
-                               icon=url_for('static', filename='images/icon.png'),
-                               user=session.get('username'))
-    return redirect("/sign_in")
+            send_notification(question, user, answer,
+                              User.query.filter_by(id=session['user_id']).first().mail)
+            return redirect("/single_question/{}".format(id))
+        return redirect("/sign_in")
+    question = Question.query.filter_by(id=id).first()
+    return render_template("single_question.html", title='Tetropentada',
+                           question=question,
+                           username=User.query.filter_by(id=question.user_id).first().username,
+                           form=form, answers=Answer.query.filter_by(question_id=id), User=User,
+                           style=url_for('static', filename='cover.css'),
+                           bootstrap=url_for('static',
+                                             filename='Bootstrap v3.1.1/dist/css/bootstrap.min.css'),
+                           icon=url_for('static', filename='images/icon.png'))
 
 
 @app.route("/delete_question/<int:id>")
