@@ -2,9 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="740a9ea1-d2f8-4bac-b3f4-2f6112e2ec50" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tetropentada.db" afterPath="$PROJECT_DIR$/tetropentada.db" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/sign_in.css" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/cover.css" afterPath="$PROJECT_DIR$/static/cover.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/add_news.html" afterPath="$PROJECT_DIR$/templates/add_news.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/index.html" afterPath="$PROJECT_DIR$/templates/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/main.html" afterPath="$PROJECT_DIR$/templates/main.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/single_question.html" afterPath="$PROJECT_DIR$/templates/single_question.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tetropentada.py" afterPath="$PROJECT_DIR$/tetropentada.py" />
     </list>
@@ -20,8 +23,8 @@
       <file leaf-file-name="tetropentada.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/tetropentada.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="289">
-              <caret line="95" column="0" lean-forward="true" selection-start-line="95" selection-start-column="0" selection-end-line="95" selection-end-column="0" />
+            <state relative-caret-position="314">
+              <caret line="228" column="0" lean-forward="true" selection-start-line="228" selection-start-column="0" selection-end-line="228" selection-end-column="0" />
               <folding>
                 <element signature="e#0#68#0" expanded="true" />
               </folding>
@@ -33,38 +36,41 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>вопрос -</find>
-      <find>вопрос -</find>
-      <find>Задавай вопросы, делись ответами и борозди просторы интернета!</find>
-      <find>Вопрос - ответ</find>
-      <find>tetropent</find>
-      <find>b</find>
       <find>bg</find>
       <find>jpg</find>
       <find>tetrop</find>
       <find>my_quests</find>
       <find>cover</find>
       <find>html</find>
-      <find>index</find>
       <find>0</find>
-      <find>single</find>
       <find>add_q</find>
       <find>css</find>
       <find>tetr</find>
       <find>icon</find>
       <find>render</find>
       <find>tetro</find>
-      <find>main</find>
       <find>regis</find>
       <find>sign_in.css</find>
       <find>ema</find>
       <find>sign_in</find>
       <find>ingle</find>
       <find>add_an</find>
+      <find>single</find>
+      <find>в</find>
+      <find>username</find>
+      <find>main</find>
+      <find>index</find>
+      <find>profile</find>
+      <find>user_id=User.query.filter_by(id=session['user_id']).first()</find>
+      <find>prof</find>
+      <find>url_f</find>
+      <find>url_for</find>
+      <find>pro</find>
     </findStrings>
     <replaceStrings>
       <replace>Вопросы</replace>
       <replace>cover.css</replace>
+      <replace>user_id=session['user_id']</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -301,8 +307,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/tetropentada.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="95" column="0" lean-forward="true" selection-start-line="95" selection-start-column="0" selection-end-line="95" selection-end-column="0" />
+        <state relative-caret-position="314">
+          <caret line="228" column="0" lean-forward="true" selection-start-line="228" selection-start-column="0" selection-end-line="228" selection-end-column="0" />
           <folding>
             <element signature="e#0#68#0" expanded="true" />
           </folding>

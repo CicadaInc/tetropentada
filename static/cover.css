@@ -177,6 +177,20 @@ input {
   font-weight: bold;
 }
 
+.avatar-writer img {
+  float: left;
+  margin-right: 20px;
+  max-width: 150px;
+  height: auto;
+}
+
+.username {
+  font-size: 22px;
+}
+
+.about-myself {
+  font-size: 16px;
+}
 
 /*
  * Footer
