@@ -4,8 +4,8 @@
 <li><a href="/main">Главная</a></li>
 <li><a href="/index/0">Вопрос - ответ</a></li>
 {% if session.get('username') %}
+	<li class="active"><a href="/profile">{{ user }}</a></li>
     <li><a href="/sign_out">Выход</a></li>
-    <li class="active"><a href="/profile">{{ user }}</a></li>
 {% else %}
     <li><a href="/registration">Регистрация</a></li>
     <li><a href="/sign_in">Вход</a></li>
