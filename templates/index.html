@@ -4,6 +4,7 @@
 <li><a href="/main">Главная</a></li>
 <li class="active"><a href="/index/0">Вопрос - ответ</a></li>
 {% if session.get('username') %}
+    <li><a href="/profile/{{ session['user_id'] }}">{{ session.get('username') }}</a></li>
     <li><a href="/sign_out">Выход</a></li>
 {% else %}
     <li><a href="/registration">Регистрация</a></li>
@@ -13,19 +14,22 @@
 
 {% block site_wrapper %}
 <div class="container">
-
     <div class="add-question-button">
-        <a class="btn btn-primary" href="/add_question" role="button">Add question</a>
+        <a class="btn btn-primary" href="/add_question" role="button">Добавить вопрос</a><br><br>
+        {% if my_quests %}
+            <a class="btn btn-primary" href="/index/0" role="button">Все вопросы</a>
+        {% else %}
+            <a class="btn btn-primary" href="/index/1" role="button">Мои вопросы</a>
+        {% endif %}
     </div>
-
     {% for quest in questions %}
         <p>
             <a href="/single_question/{{ quest.id }}">{{ quest.title }}</a>
+            <span class="badge badge-primary">{{quest.tag}}</span>
             {% if my_quests %}
                 <a href="/delete_question/{{ quest.id }}">Удалить вопрос</a>
             {% endif %}
         </p>
-
     {% endfor %}
 </div>
 {% endblock %}

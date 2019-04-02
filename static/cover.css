@@ -111,6 +111,15 @@ input {
   margin-bottom: 10px;
 }
 
+.container h5 {
+  width: 700px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: clip;
+  word-wrap: break-word;
+  white-space: pre-line;
+}
+
 /*
  * Header
  */
@@ -168,6 +177,20 @@ input {
   font-weight: bold;
 }
 
+.avatar-writer img {
+  float: left;
+  margin-right: 20px;
+  max-width: 150px;
+  height: auto;
+}
+
+.username {
+  font-size: 22px;
+}
+
+.about-myself {
+  font-size: 16px;
+}
 
 /*
  * Footer

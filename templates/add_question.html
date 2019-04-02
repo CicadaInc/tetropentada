@@ -3,6 +3,7 @@
 {% block nav %}
 <li><a href="/main">Главная</a></li>
 <li class="active"><a href="/index/0">Вопрос - ответ</a></li>
+<li><a href="/profile">{{ session.get('username') }}</a></li>
 <li><a href="/sign_out">Выход</a></li>
 {% endblock %}
 
@@ -17,6 +18,11 @@
         <div>
             {{ form.content(class_="form-control", placeholder="Содержание") }}
         </div>
+      <div class="input-group-prepend">
+        <label class="input-group-text">Выберите область</label>
+      </div>
+        <div>
+            {{ form.tags(class_="custom-select")}}
         <div>
             {{ form.submit(class_="btn btn-lg btn-success btn-block") }}
         </div>
