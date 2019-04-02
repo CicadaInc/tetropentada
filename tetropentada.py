@@ -1,3 +1,4 @@
+import os
 import smtplib
 from email.header import Header
 from email.mime.text import MIMEText
@@ -5,8 +6,9 @@ from email.mime.text import MIMEText
 from flask import Flask, render_template, url_for, session, redirect
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, TextAreaField, \
-    SelectField
+from flask_wtf.file import FileField, FileRequired, FileAllowed
+from werkzeug.utils import secure_filename
+from wtforms import StringField, PasswordField, SubmitField, TextAreaField, SelectField
 from wtforms.validators import DataRequired
 
 app = Flask(__name__)
@@ -23,11 +25,12 @@ class User(db.Model):
     password = db.Column(db.String(80), unique=False, nullable=False)
     name = db.Column(db.String(80), unique=False, nullable=False)
     surname = db.Column(db.String(80), unique=False, nullable=False)
+    avatar = db.Column(db.String(80), unique=False, nullable=False)
 
     def __repr__(self):
-        return '<User {} {} {} {} {} {}>'.format(
+        return '<User {} {} {} {} {} {} {}>'.format(
             self.id, self.username, self.mail, self.password, self.name,
-            self.surname)
+            self.surname, self.avatar)
 
 
 class Question(db.Model):
@@ -76,25 +79,37 @@ class RegistrationForm(FlaskForm):
     submit = SubmitField('Зарегистрироваться')
 
 
+class ProfileAddPhotoForm(FlaskForm):
+    photo = FileField(validators=[FileRequired(),
+                                  FileAllowed(['jpg', 'png'], 'Images only!')])
+    submit = SubmitField('Загрузить фото')
+
+
 class AddQuestionForm(FlaskForm):
     title = StringField(validators=[DataRequired()])
     content = TextAreaField(validators=[DataRequired()])
     tags = SelectField(choices=[('#Авто, Мото', 'Авто, Мото'),
                                 ('#Бизнес, Финансы', 'Бизнес, Финансы'),
                                 ('#Города и Страны', 'Города и Страны'),
-                                ('#Гороскопы, Магия, Гадания', 'Гороскопы, Магия, Гадания'),
+                                ('#Гороскопы, Магия, Гадания',
+                                 'Гороскопы, Магия, Гадания'),
                                 ('#Домашние задания', 'Домашние задания'),
                                 ('#Досуг, Развлечения', 'Досуг, Развлечения'),
                                 ('#Еда, Кулинария', 'Еда, Кулинария'),
                                 ('#Животные, Растения', 'Животные, Растения'),
-                                ('#Знакомства, Любовь, Отношения', 'Знакомства, Любовь, Отношения'),
-                                ('#Искусство и Культура', 'Искусство и Культура'),
-                                ('#Компьютерные и Видео игры', 'Компьютерные и Видео игры'),
+                                ('#Знакомства, Любовь, Отношения',
+                                 'Знакомства, Любовь, Отношения'),
+                                ('#Искусство и Культура',
+                                 'Искусство и Культура'),
+                                ('#Компьютерные и Видео игры',
+                                 'Компьютерные и Видео игры'),
                                 ('#Компьютеры, Связь', 'Компьютеры, Связь'),
                                 ('#Красота и Здоровье', 'Красота и Здоровье'),
-                                ('#Наука, Техника, Языки', 'Наука, Техника, Языки'),
+                                ('#Наука, Техника, Языки',
+                                 'Наука, Техника, Языки'),
                                 ('#Образование', 'Образование'),
-                                ('#Общество, Политика, СМИ', 'Общество, Политика, СМИ'),
+                                ('#Общество, Политика, СМИ',
+                                 'Общество, Политика, СМИ'),
                                 ('#Программирование', 'Программирование'),
                                 ('#Путешествия, Туризм', 'Путешествия, Туризм'),
                                 ('#Работа, Карьера', 'Работа, Карьера'),
@@ -102,7 +117,8 @@ class AddQuestionForm(FlaskForm):
                                 ('#Спорт', 'Спорт'),
                                 ('#Стиль, Мода, Звезды', 'Стиль, Мода, Звезды'),
                                 ('#Товары и Услуги', 'Товары и Услуги'),
-                                ('#Философия, Непознанное', 'Философия, Непознанное'),
+                                ('#Философия, Непознанное',
+                                 'Философия, Непознанное'),
                                 ('#Юмор', 'Юмор')])
     submit = SubmitField('Добавить вопрос')
 
@@ -114,19 +130,25 @@ class AnswerQuestionForm(FlaskForm):
 
 def send_notification(question, user, answer, email):
     # Настройки
-    mail_sender = email
-    mail_receiver = 'tetropentada@mail.ru'
+    mail_sender = 'tetropentada@mail.ru'
+    mail_receiver = email
     username = user
     password = 'minecraft3301'
     server = smtplib.SMTP('smtp.mail.ru:587')
 
+    print(question)
+    print(user)
+    print(answer)
+    print(email)
+
     # Формируем тело письма
     subject = 'Вы получили ответ на свой вопрос!'
-    # subject = 'Приветик ' + mail_sender + '!' # + mail_sender
-    body = user + ' ответил на ваш вопрос: "' + question + '"!'
-    body += '"' + answer + '"'
+    body = str(user) + ' ответил на ваш вопрос "' + str(question) + '"!'
+    body += '"' + str(answer) + '"'
     msg = MIMEText(body, 'plain', 'utf-8')
     msg['Subject'] = Header(subject, 'utf-8')
+
+    print(body)
 
     # Отпавляем письмо
     server.starttls()
@@ -143,13 +165,13 @@ def main():
         return render_template("main.html", title='Tetropentada',
                                style=url_for('static', filename='cover.css'),
                                bootstrap=url_for('static',
-                                                 filename='Bootstrap v3.1.1/dist/css/bootstrap.min.css'),
+                                                 filename='bootstrap.min.css'),
                                icon=url_for('static',
                                             filename='images/icon.png'))
     return render_template("main.html", title='Tetropentada',
                            style=url_for('static', filename='cover.css'),
                            bootstrap=url_for('static',
-                                             filename='Bootstrap v3.1.1/dist/css/bootstrap.min.css'),
+                                             filename='bootstrap.min.css'),
                            icon=url_for('static', filename='images/icon.png'))
 
 
@@ -169,13 +191,13 @@ def sign_in():
                                form=form,
                                style=url_for('static', filename='cover.css'),
                                bootstrap=url_for('static',
-                                                 filename='Bootstrap v3.1.1/dist/css/bootstrap.min.css'),
+                                                 filename='bootstrap.min.css'),
                                icon=url_for('static',
                                             filename='images/icon.png'))
     return render_template("sign_in.html", title='Tetropentada', form=form,
                            style=url_for('static', filename='cover.css'),
                            bootstrap=url_for('static',
-                                             filename='Bootstrap v3.1.1/dist/css/bootstrap.min.css'),
+                                             filename='bootstrap.min.css'),
                            icon=url_for('static', filename='images/icon.png'))
 
 
@@ -187,7 +209,8 @@ def registration():
         if not User.query.filter_by(username=username).first():
             user = User(username=username, mail=form.mail.data,
                         password=form.password.data,
-                        name=form.name.data, surname=form.surname.data)
+                        name=form.name.data, surname=form.surname.data,
+                        avatar='guest.png')
             db.session.add(user)
             db.session.commit()
             session['username'] = username
@@ -197,13 +220,13 @@ def registration():
                                form=form,
                                style=url_for('static', filename='cover.css'),
                                bootstrap=url_for('static',
-                                                 filename='Bootstrap v3.1.1/dist/css/bootstrap.min.css'),
+                                                 filename='bootstrap.min.css'),
                                icon=url_for('static',
                                             filename='images/icon.png'))
     return render_template("registration.html", title='Tetropentada', form=form,
                            style=url_for('static', filename='cover.css'),
                            bootstrap=url_for('static',
-                                             filename='Bootstrap v3.1.1/dist/css/bootstrap.min.css'),
+                                             filename='bootstrap.min.css'),
                            icon=url_for('static', filename='images/icon.png'))
 
 
@@ -218,7 +241,7 @@ def index(my_quests):
                                    style=url_for('static',
                                                  filename='cover.css'),
                                    bootstrap=url_for('static',
-                                                     filename='Bootstrap v3.1.1/dist/css/bootstrap.min.css'),
+                                                     filename='bootstrap.min.css'),
                                    icon=url_for('static',
                                                 filename='images/icon.png'))
         return redirect("/sign_in")
@@ -226,7 +249,7 @@ def index(my_quests):
                            questions=Question.query.all(),
                            style=url_for('static', filename='cover.css'),
                            bootstrap=url_for('static',
-                                             filename='Bootstrap v3.1.1/dist/css/bootstrap.min.css'),
+                                             filename='bootstrap.min.css'),
                            icon=url_for('static', filename='images/icon.png'))
 
 
@@ -246,23 +269,42 @@ def add_question():
                                form=form,
                                style=url_for('static', filename='cover.css'),
                                bootstrap=url_for('static',
-                                                 filename='Bootstrap v3.1.1/dist/css/bootstrap.min.css'),
+                                                 filename='bootstrap.min.css'),
                                icon=url_for('static',
                                             filename='images/icon.png'))
     return redirect("/sign_in")
 
 
-@app.route("/profile/<int:id>")
+@app.route("/profile/<int:id>", methods=['POST', 'GET'])
 def profile(id):
     if session.get('username'):
+        form = ProfileAddPhotoForm()
+        user = User.query.filter_by(id=id).first()
+        if form.validate_on_submit():
+            exp = secure_filename(form.photo.data.filename)[-3:]
+            if user.avatar == 'guest.png':
+                avatar_name = "{}1.{}".format(user.username, exp)
+            else:
+                os.remove(
+                    '{}/static/avatars/{}'.format(os.getcwd(), user.avatar))
+                avatar_name = "{}{}.{}".format(user.username, int(
+                    user.avatar[len(user.username):-4]) + 1, exp)
+            form.photo.data.save(
+                "{}/static/avatars/{}".format(os.getcwd(), avatar_name))
+            user.avatar = avatar_name
+            db.session.commit()
+            return redirect("/profile/{}".format(id))
+        avatar_name = user.avatar
         return render_template("profile.html", title='Tetropentada',
                                style=url_for('static', filename='cover.css'),
                                bootstrap=url_for('static',
-                                                 filename='Bootstrap v3.1.1/dist/css/bootstrap.min.css'),
+                                                 filename='bootstrap.min.css'),
+                               form=form,
                                icon=url_for('static',
                                             filename='images/icon.png'),
                                avatar=url_for('static',
-                                              filename='images/ava.png'),
+                                              filename='avatars/{}'.format(
+                                                  avatar_name)),
                                username=User.query.filter_by(
                                    id=id).first().username)
     return redirect("/sign_in")
@@ -280,18 +322,21 @@ def single_question(id):
             user.Answers.append(answer)
             question.Answers.append(answer)
             db.session.commit()
+            # send_notification(question, user, answer,
+            #                  User.query.filter_by(id=session['user_id']).first().mail)
             return redirect("/single_question/{}".format(id))
         return redirect("/sign_in")
     question = Question.query.filter_by(id=id).first()
     return render_template("single_question.html", title='Tetropentada',
-                           question=question, username=User.query.filter_by(
-            id=question.user_id).first().username,
+                           question=question,
+                           author=User.query.filter_by(
+                               id=question.user_id).first(),
                            form=form,
                            answers=Answer.query.filter_by(question_id=id),
                            User=User,
                            style=url_for('static', filename='cover.css'),
                            bootstrap=url_for('static',
-                                             filename='Bootstrap v3.1.1/dist/css/bootstrap.min.css'),
+                                             filename='bootstrap.min.css'),
                            icon=url_for('static', filename='images/icon.png'))
 
 

@@ -104,6 +104,7 @@ a.btn:hover {
 /* Padding for spacing */
 .inner {
   padding: 30px;
+  color: rgb(0, 0, 0);
 }
 
 input {
@@ -126,6 +127,7 @@ input {
 .masthead-brand {
   margin-top: 10px;
   margin-bottom: 10px;
+  color: rgb(255, 255, 255);
 }
 
 .masthead-nav > li {
