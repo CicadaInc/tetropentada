@@ -1,4 +1,4 @@
-{% extends "cover_base.html" %}
+{% extends "base.html" %}
 
 {% block nav %}
 <li><a href="/main">Главная</a></li>
@@ -25,6 +25,7 @@
     {% for quest in questions %}
         <p>
             <a href="/single_question/{{ quest.id }}">{{ quest.title }}</a>
+            <span class="badge badge-primary">{{ quest.tag }}</span>
             {% if my_quests %}
                 <a href="/delete_question/{{ quest.id }}">Удалить вопрос</a>
             {% endif %}

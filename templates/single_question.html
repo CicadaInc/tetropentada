@@ -1,4 +1,4 @@
-{% extends "cover_base.html" %}
+{% extends "base.html" %}
 
 {% block nav %}
 <li><a href="/main">Главная</a></li>
@@ -15,8 +15,13 @@
 {% block site_wrapper %}
 <div class="container">
     <div>
-        Вопрос задал: <a href="/profile/{{ User.query.filter_by(username=username).first().id }}">{{ username }}</a>
+        Вопрос задал:
+        <a href="/profile/{{ author.id }}">
+            <img src="{{ url_for('static', filename='avatars/{}'.format(author.avatar)) }}"
+                 height="25" width="25">{{ author.username }}
+        </a>
     </div>
+    <span class="badge badge-primary">{{ question.tag }}</span>
     <h1>{{ question.title }}</h1>
     <h4>{{ question.content }}</h4><br>
 
@@ -24,6 +29,8 @@
         {% for answer in answers %}
             <h4>
                 <a href="/profile/{{ User.query.filter_by(id=answer.user_id).first().id }}">
+                    <img src="{{ url_for('static', filename='avatars/{}'.format(User.query.filter_by(id=answer.user_id).first().avatar)) }}"
+                        height="25" width="25">
                     {{ User.query.filter_by(id=answer.user_id).first().username }}
                 </a>
             </h4>

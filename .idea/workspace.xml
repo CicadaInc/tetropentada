@@ -4,10 +4,13 @@
     <list default="true" id="740a9ea1-d2f8-4bac-b3f4-2f6112e2ec50" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tetropentada.db" afterPath="$PROJECT_DIR$/tetropentada.db" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/cover.css" afterPath="$PROJECT_DIR$/static/cover.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/add_question.html" afterPath="$PROJECT_DIR$/templates/add_question.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/base.html" afterPath="$PROJECT_DIR$/templates/base.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/index.html" afterPath="$PROJECT_DIR$/templates/index.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/main.html" afterPath="$PROJECT_DIR$/templates/main.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/profile.html" afterPath="$PROJECT_DIR$/templates/profile.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/registration.html" afterPath="$PROJECT_DIR$/templates/registration.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/sign_in.html" afterPath="$PROJECT_DIR$/templates/sign_in.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/single_question.html" afterPath="$PROJECT_DIR$/templates/single_question.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tetropentada.py" afterPath="$PROJECT_DIR$/tetropentada.py" />
     </list>
@@ -23,11 +26,21 @@
       <file leaf-file-name="tetropentada.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/tetropentada.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="297">
-              <caret line="252" column="0" lean-forward="true" selection-start-line="252" selection-start-column="0" selection-end-line="252" selection-end-column="0" />
+            <state relative-caret-position="552">
+              <caret line="247" column="30" lean-forward="false" selection-start-line="247" selection-start-column="30" selection-end-line="247" selection-end-column="30" />
               <folding>
                 <element signature="e#0#68#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="for_vk.py" pinned="false" current-in-tab="false">
+        <entry file="file://C:/Dima/USB/VK/READY/TEST_FILES/for_vk.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="93">
+              <caret line="16" column="30" lean-forward="false" selection-start-line="16" selection-start-column="30" selection-end-line="16" selection-end-column="30" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -36,9 +49,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>cover</find>
-      <find>html</find>
-      <find>0</find>
       <find>add_q</find>
       <find>css</find>
       <find>tetr</find>
@@ -61,11 +71,14 @@
       <find>url_f</find>
       <find>url_for</find>
       <find>pro</find>
-      <find>send</find>
       <find>single</find>
       <find>email</find>
       <find>send_notification</find>
       <find>singl</find>
+      <find>server</find>
+      <find>send</find>
+      <find>file</find>
+      <find>ProfileAddPhotoForm</find>
     </findStrings>
     <replaceStrings>
       <replace>Вопросы</replace>
@@ -352,7 +365,7 @@
         <state relative-caret-position="170">
           <caret line="10" column="0" lean-forward="true" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
           <folding>
-            <element signature="e#48#86#0" expanded="true" />
+            <element signature="e#48#86#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -365,10 +378,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://C:/Dima/USB/VK/READY/TEST_FILES/for_vk.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="93">
+          <caret line="16" column="30" lean-forward="false" selection-start-line="16" selection-start-column="30" selection-end-line="16" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/tetropentada.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="297">
-          <caret line="252" column="0" lean-forward="true" selection-start-line="252" selection-start-column="0" selection-end-line="252" selection-end-column="0" />
+        <state relative-caret-position="552">
+          <caret line="247" column="30" lean-forward="false" selection-start-line="247" selection-start-column="30" selection-end-line="247" selection-end-column="30" />
           <folding>
             <element signature="e#0#68#0" expanded="true" />
           </folding>

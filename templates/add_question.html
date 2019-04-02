@@ -1,9 +1,9 @@
-{% extends "cover_base.html" %}
+{% extends "base.html" %}
 
 {% block nav %}
 <li><a href="/main">Главная</a></li>
 <li class="active"><a href="/index/0">Вопрос - ответ</a></li>
-<li><a href="/profile">{{ session.get('username') }}</a></li>
+<li><a href="/profile/{{ session['user_id'] }}">{{ session.get('username') }}</a></li>
 <li><a href="/sign_out">Выход</a></li>
 {% endblock %}
 
@@ -11,16 +11,12 @@
 <div class="container">
     <form class="form-signin" role="form" method="post">
         {{ form.hidden_tag() }}
-        <h2 class="form-signin-heading">Добавление новости</h2>
-        <div>
-            {{ form.title(class_="form-control", placeholder="Заголовок") }}
-        </div>
-        <div>
-            {{ form.content(class_="form-control", placeholder="Содержание") }}
-        </div>
-        <div>
-            {{ form.submit(class_="btn btn-lg btn-success btn-block") }}
-        </div>
+        <h2 class="form-signin-heading">Добавление вопроса</h2>
+        <div>{{ form.title(class_="form-control", placeholder="Заголовок") }}</div>
+        <div>{{ form.content(class_="form-control", placeholder="Описание") }}</div>
+        <h4>Выберите категорию</h4>
+        <div>{{ form.tags(class_="form-control")}}</div>
+        <div>{{ form.submit(class_="btn btn-lg btn-success btn-block") }}</div>
     </form>
 </div>
 {% endblock %}
