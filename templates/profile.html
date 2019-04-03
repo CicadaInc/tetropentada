@@ -4,7 +4,7 @@
 <li><a href="/main">Главная</a></li>
 <li><a href="/index/0">Вопрос - ответ</a></li>
 {% if session.get('username') %}
-	{% if username == session['username'] %}
+	{% if user.username == session['username'] %}
 		<li class="active"><a href="/profile/{{ session['user_id'] }}">{{ session.get('username') }}</a></li>
 	{% else %}
 		<li><a href="/profile/{{ session['user_id'] }}">{{ session.get('username') }}</a></li>
@@ -21,19 +21,19 @@
 	<div class="avatar-writer">
 		<img src="{{ avatar }}" alt="Не удалось загрузить аватар">
 	</div>
-	{% if username == session['username'] %}
-		<div class="username">{{ username }}</div>
-		<div class="rating">
-			Рейтинг:
-		</div>
+	<div class="username">{{ user.username }}</div>
+	<div class="rating">Рейтинг:</div>
+	<div>{{ user.name }} {{ user.surname }}</div>
+	<div>{{ user.mail }}</div>
+	<br><br>
+	{% if user.username == session['username'] %}
+		<h4>Изменить аватар</h4>
 		<form role="form" method="post" enctype="multipart/form-data">
 			{{ form.hidden_tag() }}
 			<div>{{ form.photo }}</div>
 			<div>{{ form.submit() }}</div>
 		</form>
-		<br><br><br>
 	{% endif %}
-
 </div>
 {% endblock %}
 

@@ -125,14 +125,16 @@ class AddQuestionForm(FlaskForm):
 
 class AnswerQuestionForm(FlaskForm):
     content = TextAreaField(validators=[DataRequired()])
+    best = SubmitField('Лучший ответ')
+    bad = SubmitField('Ответ не соответствует')
     submit = SubmitField('Ответить')
 
 
 def send_notification(question, user, answer, email):
     # Настройки
     mail_sender = 'tetropentada@mail.ru'
-    mail_receiver = email
-    username = user
+    mail_receiver = 'tetropentada@mail.ru'
+    username = 'tetropentada@mail.ru'
     password = 'minecraft3301'
     server = smtplib.SMTP('smtp.mail.ru:587')
 
@@ -216,21 +218,27 @@ def registration():
                            icon=url_for('static', filename='images/icon.png'))
 
 
-@app.route("/index/<int:my_quests>")
+@app.route("/index/<int:my_quests>", methods=['POST', 'GET'])
 def index(my_quests):
     form = Search()
     print(form.validate_on_submit())
     if form.validate_on_submit():
         search = form.search.data
         print(search)
-        return render_template("index.html", title='Tetropentada', form=form,
-                               questions=Question.query.all(),
+        questions = Question.query.all()
+        ready_questions = []
+        for question in questions:
+            if search == question.title:
+                ready_questions.append(search)
+        return render_template("index.html", title='Tetropentada', form=form, len=len,
+                               questions=ready_questions,
                                style=url_for('static', filename='cover.css'),
                                bootstrap=url_for('static', filename='bootstrap.min.css'),
                                icon=url_for('static', filename='images/icon.png'))
     if my_quests:
         if session.get('username'):
             return render_template("index.html", title='Tetropentada', my_quests=True, form=form,
+                                   len=len,
                                    questions=Question.query.filter_by(user_id=session['user_id']),
                                    style=url_for('static', filename='cover.css'),
                                    bootstrap=url_for('static', filename='bootstrap.min.css'),
@@ -247,7 +255,7 @@ def index(my_quests):
     # for question in Question.query.all():
     #     print(question.id)
 
-    return render_template("index.html", title='Tetropentada', my_quests=False,
+    return render_template("index.html", title='Tetropentada', my_quests=False, len=len,
                            questions=Question.query.all(), form=form,
                            style=url_for('static', filename='cover.css'),
                            bootstrap=url_for('static', filename='bootstrap.min.css'),
@@ -307,10 +315,9 @@ def profile(id):
         return render_template("profile.html", title='Tetropentada',
                                style=url_for('static', filename='cover.css'),
                                bootstrap=url_for('static', filename='bootstrap.min.css'),
-                               form=form,
+                               form=form, user=user,
                                icon=url_for('static', filename='images/icon.png'),
-                               avatar=url_for('static', filename='avatars/{}'.format(avatar_name)),
-                               username=User.query.filter_by(id=id).first().username)
+                               avatar=url_for('static', filename='avatars/{}'.format(avatar_name)))
     return redirect("/sign_in")
 
 
@@ -325,8 +332,8 @@ def single_question(id):
             user.Answers.append(answer)
             question.Answers.append(answer)
             db.session.commit()
-            # send_notification(question, user, answer,
-            #                  User.query.filter_by(id=session['user_id']).first().mail)
+            send_notification(question, user, answer,
+                              User.query.filter_by(id=question.user_id).first().mail)
             return redirect("/single_question/{}".format(id))
         return redirect("/sign_in")
     question = Question.query.filter_by(id=id).first()

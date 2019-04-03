@@ -217,10 +217,45 @@ input {
 }
 
 .username {
-  font-size: 22px;
+  font-size: 28px;
+  padding-bottom: 10px;
 }
 
 .rating {
+  color: green;
+  padding-bottom: 5px;
+}
+
+.count-answers {
+  font-size: 18px;
+  color: grey;
+}
+
+.btn-success {
+  color: #fff;
+  background-color: #5cb85c;
+  border-color: #4cae4c;
+  font-size: 12px;
+}
+
+.btn-danger {
+  color: #fff;
+  background-color: #d9534f;
+  border-color: #d43f3a;
+  font-size: 12px;
+}
+
+/*.answer {
+  background-color: #e6f9e6;
+}*/
+
+.count-answers-not-answered {
+  font-size: 18px;
+  color: grey;
+}
+
+.count-answers-answered {
+  font-size: 18px;
   color: green;
 }
 

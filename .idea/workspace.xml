@@ -2,12 +2,239 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="740a9ea1-d2f8-4bac-b3f4-2f6112e2ec50" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/.editorconfig" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/.gitattributes" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/.gitignore" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/.travis.yml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/CNAME" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/CONTRIBUTING.md" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/Gruntfile.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/LICENSE" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/README.md" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/_config.yml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/bower.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/composer.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/dist/css/bootstrap-theme.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/dist/css/bootstrap-theme.css.map" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/dist/css/bootstrap-theme.min.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/dist/css/bootstrap.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/dist/css/bootstrap.css.map" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/dist/css/bootstrap.min.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/dist/fonts/glyphicons-halflings-regular.eot" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/dist/fonts/glyphicons-halflings-regular.svg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/dist/fonts/glyphicons-halflings-regular.ttf" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/dist/fonts/glyphicons-halflings-regular.woff" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/dist/js/bootstrap.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/dist/js/bootstrap.min.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/LICENSE" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/_data/core-team.yml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/_data/glyphicons.yml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/_data/sass-team.yml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/_data/showcase.yml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/_includes/ads.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/_includes/customizer-variables.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/_includes/footer.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/_includes/header.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/_includes/nav-about.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/_includes/nav-components.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/_includes/nav-css.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/_includes/nav-customize.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/_includes/nav-getting-started.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/_includes/nav-javascript.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/_includes/nav-main.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/_includes/nav-migration.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/_includes/social-buttons.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/_layouts/default.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/_layouts/home.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/about.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/assets/css/docs.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/assets/css/docs.min.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/assets/css/pygments-manni.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/assets/ico/apple-touch-icon-144-precomposed.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/assets/ico/favicon.ico" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/assets/img/components.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/assets/img/devices.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/assets/img/sass-less.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/assets/js/application.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/assets/js/customize.min.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/assets/js/customizer.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/assets/js/docs.min.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/assets/js/ie8-responsive-file-warning.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/assets/js/raw-files.min.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/assets/js/vendor/blob.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/assets/js/vendor/filesaver.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/assets/js/vendor/holder.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/assets/js/vendor/jszip.min.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/assets/js/vendor/less.min.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/assets/js/vendor/uglify.min.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/components.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/css.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/customize.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/dist/css/bootstrap-theme.css.map" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/dist/css/bootstrap-theme.min.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/dist/css/bootstrap.css.map" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/dist/css/bootstrap.min.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/dist/fonts/glyphicons-halflings-regular.eot" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/dist/fonts/glyphicons-halflings-regular.svg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/dist/fonts/glyphicons-halflings-regular.ttf" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/dist/fonts/glyphicons-halflings-regular.woff" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/dist/js/bootstrap.min.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/examples/blog/blog.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/examples/blog/index.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/examples/carousel/carousel.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/examples/carousel/index.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/examples/cover/cover.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/examples/cover/index.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/examples/dashboard/dashboard.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/examples/dashboard/index.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/examples/grid/grid.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/examples/grid/index.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/examples/jumbotron-narrow/index.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/examples/jumbotron-narrow/jumbotron-narrow.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/examples/jumbotron/index.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/examples/jumbotron/jumbotron.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/examples/justified-nav/index.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/examples/justified-nav/justified-nav.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/examples/navbar-fixed-top/index.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/examples/navbar-fixed-top/navbar-fixed-top.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/examples/navbar-static-top/index.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/examples/navbar-static-top/navbar-static-top.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/examples/navbar/index.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/examples/navbar/navbar.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/examples/non-responsive/index.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/examples/non-responsive/non-responsive.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/examples/offcanvas/index.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/examples/offcanvas/offcanvas.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/examples/offcanvas/offcanvas.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/examples/screenshots/blog.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/examples/screenshots/carousel.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/examples/screenshots/cover.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/examples/screenshots/dashboard.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/examples/screenshots/grid.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/examples/screenshots/jumbotron-narrow.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/examples/screenshots/jumbotron.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/examples/screenshots/justified-nav.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/examples/screenshots/navbar-fixed.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/examples/screenshots/navbar-static.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/examples/screenshots/navbar.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/examples/screenshots/non-responsive.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/examples/screenshots/offcanvas.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/examples/screenshots/sign-in.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/examples/screenshots/starter-template.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/examples/screenshots/sticky-footer-navbar.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/examples/screenshots/sticky-footer.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/examples/screenshots/theme.jpg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/examples/signin/index.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/examples/signin/signin.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/examples/starter-template/index.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/examples/starter-template/starter-template.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/examples/sticky-footer-navbar/index.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/examples/sticky-footer-navbar/sticky-footer-navbar.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/examples/sticky-footer/index.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/examples/sticky-footer/sticky-footer.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/examples/theme/index.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/examples/theme/theme.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/getting-started.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/index.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/jade/customizer-nav.jade" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/jade/customizer-variables.jade" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/javascript.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/docs/migration.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/fonts/glyphicons-halflings-regular.eot" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/fonts/glyphicons-halflings-regular.svg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/fonts/glyphicons-halflings-regular.ttf" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/fonts/glyphicons-halflings-regular.woff" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/grunt/.jshintrc" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/grunt/bs-glyphicons-data-generator.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/grunt/bs-lessdoc-parser.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/grunt/bs-raw-files-generator.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/grunt/shrinkwrap.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/js/.jscs.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/js/.jshintrc" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/js/affix.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/js/alert.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/js/button.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/js/carousel.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/js/collapse.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/js/dropdown.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/js/modal.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/js/popover.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/js/scrollspy.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/js/tab.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/js/tests/index.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/js/tests/unit/affix.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/js/tests/unit/alert.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/js/tests/unit/button.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/js/tests/unit/carousel.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/js/tests/unit/collapse.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/js/tests/unit/dropdown.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/js/tests/unit/modal.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/js/tests/unit/phantom.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/js/tests/unit/popover.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/js/tests/unit/scrollspy.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/js/tests/unit/tab.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/js/tests/unit/tooltip.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/js/tests/vendor/jquery.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/js/tests/vendor/qunit.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/js/tests/vendor/qunit.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/js/tooltip.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/js/transition.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/less/.csscomb.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/less/.csslintrc" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/less/alerts.less" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/less/badges.less" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/less/bootstrap.less" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/less/breadcrumbs.less" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/less/button-groups.less" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/less/buttons.less" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/less/carousel.less" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/less/close.less" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/less/code.less" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/less/component-animations.less" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/less/dropdowns.less" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/less/forms.less" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/less/glyphicons.less" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/less/grid.less" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/less/input-groups.less" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/less/jumbotron.less" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/less/labels.less" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/less/list-group.less" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/less/media.less" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/less/mixins.less" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/less/modals.less" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/less/navbar.less" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/less/navs.less" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/less/normalize.less" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/less/pager.less" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/less/pagination.less" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/less/panels.less" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/less/popovers.less" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/less/print.less" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/less/progress-bars.less" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/less/responsive-utilities.less" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/less/scaffolding.less" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/less/tables.less" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/less/theme.less" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/less/thumbnails.less" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/less/tooltip.less" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/less/type.less" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/less/utilities.less" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/less/variables.less" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/less/wells.less" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/package.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/test-infra/README.md" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/test-infra/npm-shrinkwrap.canonical.json" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/test-infra/requirements.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/test-infra/s3_cache.py" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/test-infra/sauce_browsers.yml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/static/Bootstrap v3.1.1/test-infra/uncached-npm-install.sh" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tetropentada.db" afterPath="$PROJECT_DIR$/tetropentada.db" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/static/cover.css" afterPath="$PROJECT_DIR$/static/cover.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/index.html" afterPath="$PROJECT_DIR$/templates/index.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/profile.html" afterPath="$PROJECT_DIR$/templates/profile.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/single_question.html" afterPath="$PROJECT_DIR$/templates/single_question.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/templates/unsubscribe.html" afterPath="$PROJECT_DIR$/templates/unsubscribe.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tetropentada.py" afterPath="$PROJECT_DIR$/tetropentada.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -22,8 +249,8 @@
       <file leaf-file-name="tetropentada.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/tetropentada.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="138">
-              <caret line="244" column="0" lean-forward="false" selection-start-line="244" selection-start-column="0" selection-end-line="244" selection-end-column="0" />
+            <state relative-caret-position="136">
+              <caret line="139" column="0" lean-forward="true" selection-start-line="139" selection-start-column="0" selection-end-line="139" selection-end-column="0" />
               <folding>
                 <element signature="e#0#68#0" expanded="true" />
               </folding>
@@ -34,8 +261,8 @@
       <file leaf-file-name="for_vk.py" pinned="false" current-in-tab="false">
         <entry file="file://C:/Dima/USB/VK/READY/TEST_FILES/for_vk.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="16" column="30" lean-forward="false" selection-start-line="16" selection-start-column="30" selection-end-line="16" selection-end-column="30" />
+            <state relative-caret-position="178">
+              <caret line="21" column="30" lean-forward="true" selection-start-line="21" selection-start-column="30" selection-end-line="21" selection-end-column="30" />
               <folding />
             </state>
           </provider>
@@ -45,15 +272,12 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>main</find>
-      <find>profile</find>
       <find>user_id=User.query.filter_by(id=session['user_id']).first()</find>
       <find>prof</find>
       <find>url_f</find>
       <find>url_for</find>
       <find>pro</find>
       <find>email</find>
-      <find>send_notification</find>
       <find>singl</find>
       <find>server</find>
       <find>send</find>
@@ -70,11 +294,14 @@
       <find>sign</find>
       <find>uns`</find>
       <find>mail</find>
-      <find>uns</find>
       <find>user</find>
       <find>single</find>
-      <find>index</find>
       <find>answer</find>
+      <find>uns</find>
+      <find>index</find>
+      <find>no</find>
+      <find>notifi</find>
+      <find>send_notification</find>
     </findStrings>
     <replaceStrings>
       <replace>Вопросы</replace>
@@ -236,7 +463,7 @@
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17789166" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32868218" sideWeight="0.50292826" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.35813954" sideWeight="0.49707174" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.35813954" sideWeight="0.49707174" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -257,7 +484,15 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager />
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/tetropentada.py</url>
+          <line>134</line>
+        </line-breakpoint>
+      </breakpoints>
+      <option name="time" value="1" />
+    </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
@@ -379,16 +614,16 @@
     </entry>
     <entry file="file://C:/Dima/USB/VK/READY/TEST_FILES/for_vk.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="16" column="30" lean-forward="false" selection-start-line="16" selection-start-column="30" selection-end-line="16" selection-end-column="30" />
+        <state relative-caret-position="178">
+          <caret line="21" column="30" lean-forward="true" selection-start-line="21" selection-start-column="30" selection-end-line="21" selection-end-column="30" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/tetropentada.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="138">
-          <caret line="244" column="0" lean-forward="false" selection-start-line="244" selection-start-column="0" selection-end-line="244" selection-end-column="0" />
+        <state relative-caret-position="136">
+          <caret line="139" column="0" lean-forward="true" selection-start-line="139" selection-start-column="0" selection-end-line="139" selection-end-column="0" />
           <folding>
             <element signature="e#0#68#0" expanded="true" />
           </folding>
