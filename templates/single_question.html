@@ -14,27 +14,33 @@
 
 {% block site_wrapper %}
 <div class="container">
-    <div>
-        Вопрос задал:
+    <div class="author-links">
         <a href="/profile/{{ author.id }}">
-            <img src="{{ url_for('static', filename='avatars/{}'.format(author.avatar)) }}"
-                 height="25" width="25">{{ author.username }}
+            <img class="round-img" src="{{ url_for('static', filename='avatars/{}'.format(author.avatar)) }}"
+                 height="30" width="30">
+            {{ author.username }}
         </a>
+        <span class="badge badge-primary">{{ question.tag }}</span>
     </div>
     <h1>{{ question.title }}</h1>
-    <h4>{{ question.content }}</h4>
-	<p>{{ question.tag}}</p><br>
+    <h4>{{ question.content }}</h4><br>
 
-    <div class="answer">
+    <div class="answers">
         {% for answer in answers %}
-            <h4>
-                <a href="/profile/{{ User.query.filter_by(id=answer.user_id).first().id }}">
-                    <img src="{{ url_for('static', filename='avatars/{}'.format(User.query.filter_by(id=answer.user_id).first().avatar)) }}"
-                        height="25" width="25">
-                    {{ User.query.filter_by(id=answer.user_id).first().username }}
-                </a>
-            </h4>
-            <h5>{{ answer.content }}</h5>
+            <div class="answer">
+                <h4>
+                    <a class="user-link" href="/profile/{{ User.query.filter_by(id=answer.user_id).first().id }}">
+                        <img class="round-img" src="{{ url_for('static', filename='avatars/{}'.format(User.query.filter_by(id=answer.user_id).first().avatar)) }}"
+                            height="30" width="30">
+                        {{ User.query.filter_by(id=answer.user_id).first().username }}
+                    </a>
+                    {% if author.username == session['username'] %}
+                        {{ form.best(type="button", class_="btn btn-outline-success btn-xs") }}
+                        {{ form.bad(type="button", class_="btn btn-outline-danger btn-xs") }}
+                    {% endif %}
+                </h4>
+                <div class="answer-content">{{ answer.content }}</div>
+            </div>
         {% endfor %}
     </div><br>
 
