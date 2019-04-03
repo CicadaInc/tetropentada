@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block nav %}
+<li><a href="/main">Главная</a></li>
+<li class="active"><a href="/index/0">Вопрос - ответ</a></li>
+{% if session.get('username') %}
+    <li><a href="/profile/{{ session['user_id'] }}">{{ session['username'] }}</a></li>
+    <li><a href="/sign_out">Выход</a></li>
+{% else %}
+    <li><a href="/registration">Регистрация</a></li>
+    <li><a href="/sign_in">Вход</a></li>
+{% endif %}
+{% endblock %}
+
+{% block site_wrapper %}
+<div class="container">
+    <div>
+        Вопрос задал:
+        <a href="/profile/{{ author.id }}">
+            <img src="{{ url_for('static', filename='avatars/{}'.format(author.avatar)) }}"
+                 height="25" width="25">{{ author.username }}
+        </a>
+    </div>
+    <span class="badge badge-primary">{{ question.tag }}</span>
+    <h1>{{ question.title }}</h1>
+    <h4>{{ question.content }}</h4><br>
+
+    <div class="answer">
+        {% for answer in answers %}
+            <h4>
+                <a href="/profile/{{ User.query.filter_by(id=answer.user_id).first().id }}">
+                    <img src="{{ url_for('static', filename='avatars/{}'.format(User.query.filter_by(id=answer.user_id).first().avatar)) }}"
+                        height="25" width="25">
+                    {{ User.query.filter_by(id=answer.user_id).first().username }}
+                </a>
+            </h4>
+            <h5>{{ answer.content }}</h5>
+        {% endfor %}
+    </div><br>
+
+    <form class="form-signin" role="form" method="post">
+        {{ form.hidden_tag() }}
+        <div>
+            {{ form.content(class_="form-control", placeholder="Ваш ответ") }}
+            {{ form.submit(class_="btn btn-lg btn-success btn-block") }}
+        </div>
+    </form>
+</div>
+{% endblock %}

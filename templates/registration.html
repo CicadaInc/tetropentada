@@ -1,0 +1,15 @@
+{% extends "sign_in.html" %}
+
+{% block nav %}
+<li><a href="/main">Главная</a></li>
+<li><a href="/index/0">Вопрос - ответ</a></li>
+<li class="active"><a href="/registration">Регистрация</a></li>
+<li><a href="/sign_in">Вход</a></li>
+{% endblock %}
+
+{% block new_fields %}
+<h2 class="form-signin-heading">Регистрация</h2>
+<div>{{ form.name(class_="form-control", placeholder="Ваше имя") }}</div>
+<div>{{ form.surname(class_="form-control", placeholder="Ваша фамилия") }}</div>
+<div>{{ form.mail(class_="form-control", placeholder="Ваш e-mail") }}</div>
+{% endblock %}

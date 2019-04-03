@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block nav %}
+<li><a href="/main">Главная</a></li>
+<li><a href="/index/0">Вопрос - ответ</a></li>
+{% if session.get('username') %}
+	{% if username == session['username'] %}
+		<li class="active"><a href="/profile/{{ session['user_id'] }}">{{ session.get('username') }}</a></li>
+	{% else %}
+		<li><a href="/profile/{{ session['user_id'] }}">{{ session.get('username') }}</a></li>
+	{% endif %}
+    <li><a href="/sign_out">Выход</a></li>
+{% else %}
+    <li><a href="/registration">Регистрация</a></li>
+    <li><a href="/sign_in">Вход</a></li>
+{% endif %}
+{% endblock %}
+
+{% block site_wrapper %}
+<div class="container">
+	<div class="avatar-writer">
+		<img src="{{ avatar }}" alt="Не удалось загрузить аватар">
+	</div>
+	{% if username == session['username'] %}
+		<form role="form" method="post" enctype="multipart/form-data">
+			{{ form.hidden_tag() }}
+			<div>{{ form.photo }}</div>
+			<div>{{ form.submit() }}</div>
+		</form>
+		<br><br><br>
+	{% endif %}
+	<div class="username">{{ username }}</div>
+	<div class="about-myself">
+		Here will be text about myself
+	</div>
+
+</div>
+{% endblock %}
