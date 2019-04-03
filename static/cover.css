@@ -157,6 +157,36 @@ input {
   border-bottom-color: #fff;
 }
 
+.delete-question a {
+  font-size: 12px;
+  color: red;
+}
+
+.answer-content {
+  padding-left: 35px;
+  font-size: 15px;
+}
+
+.author-links {
+  padding-bottom: 10px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.user-link {
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.round-img {
+  border-radius: 100px; /* Радиус скругления */
+  /*border: 3px solid green; /* Параметры рамки */*/
+  /*box-shadow: 0 0 7px #666; /* Параметры тени */*/
+}
+
+.text-question {
+  padding-bottom: 0px;
+}
+
 @media (min-width: 768px) {
   .masthead-brand {
     float: left;
@@ -190,8 +220,8 @@ input {
   font-size: 22px;
 }
 
-.about-myself {
-  font-size: 16px;
+.rating {
+  color: green;
 }
 
 /*

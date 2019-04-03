@@ -92,6 +92,16 @@ class SingInForm(FlaskForm):
     submit = SubmitField('Войти')
 
 
+class Search(FlaskForm):
+    search = StringField(validators=[DataRequired()])
+    submit = SubmitField('Найти')
+
+
+class Unsubscribe(FlaskForm):
+    password = PasswordField(validators=[DataRequired()])
+    submit = SubmitField('Отписаться от уведомлений')
+
+
 class RegistrationForm(FlaskForm):
     name = StringField(validators=[DataRequired()])
     surname = StringField(validators=[DataRequired()])
@@ -208,16 +218,37 @@ def registration():
 
 @app.route("/index/<int:my_quests>")
 def index(my_quests):
+    form = Search()
+    print(form.validate_on_submit())
+    if form.validate_on_submit():
+        search = form.search.data
+        print(search)
+        return render_template("index.html", title='Tetropentada', form=form,
+                               questions=Question.query.all(),
+                               style=url_for('static', filename='cover.css'),
+                               bootstrap=url_for('static', filename='bootstrap.min.css'),
+                               icon=url_for('static', filename='images/icon.png'))
     if my_quests:
         if session.get('username'):
-            return render_template("index.html", title='Tetropentada', my_quests=True,
+            return render_template("index.html", title='Tetropentada', my_quests=True, form=form,
                                    questions=Question.query.filter_by(user_id=session['user_id']),
                                    style=url_for('static', filename='cover.css'),
                                    bootstrap=url_for('static', filename='bootstrap.min.css'),
                                    icon=url_for('static', filename='images/icon.png'))
         return redirect("/sign_in")
+
+    # print(len(Question.query.all()))
+    # count_answers = Answer(content=form.content.data, user_id=session['user_id'], question_id=id)
+    # Answer.query.filter_by(question_id=id)
+
+    # print(Answer.query.filter_by(question_id=1).content)
+    # print(Question.query.all())
+
+    # for question in Question.query.all():
+    #     print(question.id)
+
     return render_template("index.html", title='Tetropentada', my_quests=False,
-                           questions=Question.query.all(),
+                           questions=Question.query.all(), form=form,
                            style=url_for('static', filename='cover.css'),
                            bootstrap=url_for('static', filename='bootstrap.min.css'),
                            icon=url_for('static', filename='images/icon.png'))
@@ -240,6 +271,21 @@ def add_question():
     return redirect("/sign_in")
 
 
+@app.route("/unsubscribe", methods=['POST', 'GET'])
+def unsubscribe():
+    form = Unsubscribe()
+    if form.submit.data:
+        password = form.password.data
+        user_id = session['user_id']
+        user = User.query.filter_by(user_id=user_id).filter_by(password=password).first()
+        if user:
+            print('Нужно удалить почту пользователя из базы')
+    return render_template('unsubscribe.html', title='Tetropentada', form=form,
+                           style=url_for('static', filename='cover.css'),
+                           bootstrap=url_for('static', filename='bootstrap.min.css'),
+                           icon=url_for('static', filename='images/icon.png'))
+
+
 @app.route("/profile/<int:id>", methods=['POST', 'GET'])
 def profile(id):
     if session.get('username'):
@@ -251,7 +297,8 @@ def profile(id):
                 avatar_name = "{}1.{}".format(user.username, exp)
             else:
                 os.remove('{}/static/avatars/{}'.format(os.getcwd(), user.avatar))
-                avatar_name = "{}{}.{}".format(user.username, int(user.avatar[len(user.username):-4]) + 1, exp)
+                avatar_name = "{}{}.{}".format(user.username,
+                                               int(user.avatar[len(user.username):-4]) + 1, exp)
             form.photo.data.save("{}/static/avatars/{}".format(os.getcwd(), avatar_name))
             user.avatar = avatar_name
             db.session.commit()
