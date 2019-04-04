@@ -18,7 +18,8 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///tetropentada.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
-TAGS = [('#Авто, Мото', 'Авто, Мото'),
+TAGS = [('#Все вопросы', 'Все вопросы'),
+        ('#Авто, Мото', 'Авто, Мото'),
         ('#Бизнес, Финансы', 'Бизнес, Финансы'),
         ('#Города и Страны', 'Города и Страны'),
         ('#Гороскопы, Магия, Гадания', 'Гороскопы, Магия, Гадания'),
@@ -250,12 +251,16 @@ def index(my_quests):
         sort = form.sort.data
         ready_questions = []
         for question in questions:
-            if sort:
+            if sort != "#Все вопросы":
                 if (search.upper() in str(
                         question.title).upper() or search.upper() in str(
                     question.content).upper()) and question.tag == sort:
                     ready_questions.append(question)
-
+            else:
+                if search.upper() in str(
+                        question.title).upper() or search.upper() in str(
+                    question.content).upper():
+                    ready_questions.append(question)
         return render_template("index.html", title='Tetropentada', form=form,
                                len=len,
                                questions=ready_questions,
