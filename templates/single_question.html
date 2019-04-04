@@ -26,7 +26,7 @@
     <h4>{{ question.content }}</h4><br>
 
     <div class="answers">
-        {% for answer in answers %}
+        {% for answer in answers_list %}
             <div class="answer">
                 <h4>
                     <a class="user-link" href="/profile/{{ User.query.filter_by(id=answer.user_id).first().id }}">
@@ -34,9 +34,22 @@
                             height="30" width="30">
                         {{ User.query.filter_by(id=answer.user_id).first().username }}
                     </a>
-                    {% if author.username == session['username'] %}
-                        {{ form.best(type="button", class_="btn btn-outline-success btn-xs") }}
-                        {{ form.bad(type="button", class_="btn btn-outline-danger btn-xs") }}
+                    {% if author.username == session['username'] and User.query.filter_by(id=answer.user_id).first().id != session['user_id'] %}
+                        {% if answers.filter_by(best=1).all() %}
+                            {% if answer.best %}
+                                <a href="/best_answer/{{ User.query.filter_by(id=answer.user_id).first().id }}/{{ question.id }}/{{ answer.id }}/0">Не лучший ответ</a>
+                            {% endif %}
+                        {% elif answer.best != -1 %}
+                            <a href="/best_answer/{{ User.query.filter_by(id=answer.user_id).first().id }}/{{ question.id }}/{{ answer.id }}/1">Лучший ответ</a>
+                        {% endif %}
+
+                        {% if answers.filter_by(best=-1).all() %}
+                            {% if answer.best %}
+                                <a href="/bad_answer/{{ User.query.filter_by(id=answer.user_id).first().id }}/{{ question.id }}/{{ answer.id }}/0">Не плохой ответ</a>
+                            {% endif %}
+                        {% elif answer.best != 1 %}
+                            <a href="/bad_answer/{{ User.query.filter_by(id=answer.user_id).first().id }}/{{ question.id }}/{{ answer.id }}/1">Плохой ответ</a>
+                        {% endif %}
                     {% endif %}
                 </h4>
                 <div class="answer-content">{{ answer.content }}</div>

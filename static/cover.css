@@ -157,6 +157,36 @@ input {
   border-bottom-color: #fff;
 }
 
+.delete-question a {
+  font-size: 12px;
+  color: red;
+}
+
+.answer-content {
+  padding-left: 35px;
+  font-size: 15px;
+}
+
+.author-links {
+  padding-bottom: 10px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.user-link {
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.round-img {
+  border-radius: 100px; /* Радиус скругления */
+  /*border: 3px solid green; /* Параметры рамки */*/
+  /*box-shadow: 0 0 7px #666; /* Параметры тени */*/
+}
+
+.text-question {
+  padding-bottom: 0px;
+}
+
 @media (min-width: 768px) {
   .masthead-brand {
     float: left;
@@ -187,11 +217,46 @@ input {
 }
 
 .username {
-  font-size: 22px;
+  font-size: 28px;
+  padding-bottom: 10px;
 }
 
-.about-myself {
-  font-size: 16px;
+.rating {
+  color: green;
+  padding-bottom: 5px;
+}
+
+.count-answers {
+  font-size: 18px;
+  color: grey;
+}
+
+.btn-success {
+  color: #fff;
+  background-color: #5cb85c;
+  border-color: #4cae4c;
+  font-size: 12px;
+}
+
+.btn-danger {
+  color: #fff;
+  background-color: #d9534f;
+  border-color: #d43f3a;
+  font-size: 12px;
+}
+
+/*.answer {
+  background-color: #e6f9e6;
+}*/
+
+.count-answers-not-answered {
+  font-size: 18px;
+  color: grey;
+}
+
+.count-answers-answered {
+  font-size: 18px;
+  color: green;
 }
 
 /*

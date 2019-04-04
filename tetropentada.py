@@ -53,11 +53,12 @@ class User(db.Model):
     name = db.Column(db.String(80), unique=False, nullable=False)
     surname = db.Column(db.String(80), unique=False, nullable=False)
     avatar = db.Column(db.String(80), unique=False, nullable=False)
+    rating = db.Column(db.Integer, unique=False, nullable=False)
 
     def __repr__(self):
-        return '<User {} {} {} {} {} {} {}>'.format(
+        return '<User {} {} {} {} {} {} {} {}>'.format(
             self.id, self.username, self.mail, self.password, self.name,
-            self.surname, self.avatar)
+            self.surname, self.avatar, self.rating)
 
 
 class Question(db.Model):
@@ -78,14 +79,15 @@ class Answer(db.Model):
     content = db.Column(db.String(80), unique=False, nullable=False)
     question_id = db.Column(db.Integer, db.ForeignKey('question.id'),
                             nullable=False)
+    best = db.Column(db.Integer, unique=False, nullable=False)
     question = db.relationship('Question',
                                backref=db.backref('Answers', lazy=True))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     user = db.relationship('User', backref=db.backref('Answers', lazy=True))
 
     def __repr__(self):
-        return '<Answer {} {} {} {}>'.format(
-            self.id, self.content, self.user_id, self.question_id)
+        return '<Answer {} {} {} {} {}>'.format(
+            self.id, self.content, self.best, self.user_id, self.question_id)
 
 
 db.create_all()
@@ -97,9 +99,11 @@ class SingInForm(FlaskForm):
     submit = SubmitField('Войти')
 
 
-class Search(FlaskForm):
+class Search_and_Sort(FlaskForm):
     search = StringField(validators=[DataRequired()])
     submit = SubmitField('Найти')
+    sort = SelectField(choices=TAGS)
+    submit_for_sort = SubmitField('Отсортировать по категории')
 
 
 class Unsubscribe(FlaskForm):
@@ -131,8 +135,6 @@ class AddQuestionForm(FlaskForm):
 
 class AnswerQuestionForm(FlaskForm):
     content = TextAreaField(validators=[DataRequired()])
-    best = SubmitField('Лучший ответ')
-    bad = SubmitField('Ответ не соответствует')
     submit = SubmitField('Ответить')
 
 
@@ -218,7 +220,7 @@ def registration():
             user = User(username=username, mail=form.mail.data,
                         password=form.password.data,
                         name=form.name.data, surname=form.surname.data,
-                        avatar='guest.png')
+                        avatar='guest.png', rating=0)
             db.session.add(user)
             db.session.commit()
             session['username'] = username
@@ -240,17 +242,20 @@ def registration():
 
 @app.route("/index/<int:my_quests>", methods=['POST', 'GET'])
 def index(my_quests):
-    form = Search()
+    form = Search_and_Sort()
     print(form.validate_on_submit())
     if form.validate_on_submit():
         search = form.search.data
         questions = Question.query.all()
+        sort = form.sort.data
         ready_questions = []
         for question in questions:
-            if search.upper() in str(
-                    question.title).upper() or search.upper() in str(
-                    question.content).upper():
-                ready_questions.append(question)
+            if sort:
+                if (search.upper() in str(
+                        question.title).upper() or search.upper() in str(
+                    question.content).upper()) and question.tag == sort:
+                    ready_questions.append(question)
+
         return render_template("index.html", title='Tetropentada', form=form,
                                len=len,
                                questions=ready_questions,
@@ -374,7 +379,7 @@ def single_question(id):
             user = User.query.filter_by(id=session['user_id']).first()
             question = Question.query.filter_by(id=id).first()
             answer = Answer(content=form.content.data,
-                            user_id=session['user_id'], question_id=id)
+                            user_id=session['user_id'], best=0, question_id=id)
             user.Answers.append(answer)
             question.Answers.append(answer)
             db.session.commit()
@@ -384,13 +389,14 @@ def single_question(id):
             return redirect("/single_question/{}".format(id))
         return redirect("/sign_in")
     question = Question.query.filter_by(id=id).first()
+    answers = Answer.query.filter_by(question_id=id)
     return render_template("single_question.html", title='Tetropentada',
                            question=question,
                            author=User.query.filter_by(
                                id=question.user_id).first(),
-                           form=form,
-                           answers=Answer.query.filter_by(question_id=id),
-                           User=User,
+                           form=form, User=User, answers=answers,
+                           answers_list=sorted(answers, key=lambda x: x.best,
+                                               reverse=True),
                            style=url_for('static', filename='cover.css'),
                            bootstrap=url_for('static',
                                              filename='bootstrap.min.css'),
@@ -409,6 +415,31 @@ def sign_out():
     session.pop('username')
     session.pop('user_id')
     return redirect("/main")
+
+
+@app.route(
+    "/best_answer/<int:user_id>/<int:quest_id>/<int:answer_id>/<int:set>")
+def best_answer(user_id, quest_id, answer_id, set):
+    if set:
+        User.query.filter_by(id=user_id).first().rating += 6
+        Answer.query.filter_by(id=answer_id).first().best = 1
+    else:
+        User.query.filter_by(id=user_id).first().rating -= 6
+        Answer.query.filter_by(id=answer_id).first().best = 0
+    db.session.commit()
+    return redirect("/single_question/{}".format(quest_id))
+
+
+@app.route("/bad_answer/<int:user_id>/<int:quest_id>/<int:answer_id>/<int:set>")
+def bad_answer(user_id, quest_id, answer_id, set):
+    if set:
+        User.query.filter_by(id=user_id).first().rating -= 10
+        Answer.query.filter_by(id=answer_id).first().best = -1
+    else:
+        User.query.filter_by(id=user_id).first().rating += 10
+        Answer.query.filter_by(id=answer_id).first().best = 0
+    db.session.commit()
+    return redirect("/single_question/{}".format(quest_id))
 
 
 app.run(port=8080, host='127.0.0.1', debug=True)
