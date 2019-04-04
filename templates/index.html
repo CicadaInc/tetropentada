@@ -17,6 +17,8 @@
     <form role="form" method="post">
         {{ form.hidden_tag() }}
         {{ form.search(class_="form-control", placeholder="Поиск") }}
+        <h4>Сортировка: выберите категорию</h4>
+        {{ form.sort(class_="form-control") }}
         {{ form.submit(class_="btn btn-lg btn-success btn-block") }}
     </form>
 </div>
@@ -42,7 +44,6 @@
                     <a href="/delete_question/{{ quest.id }}">Удалить вопрос</a>
                 </div>
             {% endif %}
-        </p>
     {% endfor %}
 </div>
 {% endblock %}
