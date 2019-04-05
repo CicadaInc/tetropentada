@@ -11,6 +11,7 @@ from werkzeug.utils import secure_filename
 from wtforms import StringField, PasswordField, SubmitField, TextAreaField, \
     SelectField
 from wtforms.validators import DataRequired
+from LSA import LSA
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'Супер секретный мод на майнкрафт'
@@ -142,7 +143,7 @@ class AnswerQuestionForm(FlaskForm):
 def send_notification(question, user, answer, email):
     # Настройки
     mail_sender = 'tetropentada@mail.ru'
-    mail_receiver = 'tetropentada@mail.ru'
+    mail_receiver = email
     username = 'tetropentada@mail.ru'
     password = 'minecraft3301'
     server = smtplib.SMTP('smtp.mail.ru:587')
@@ -249,6 +250,10 @@ def index(my_quests):
         search = form.search.data
         questions = Question.query.all()
         sort = form.sort.data
+
+        # SMART SEARCH
+        response = LSA(search, [question.title for question in Question.query.all()])
+
         ready_questions = []
         for question in questions:
             if sort != "#Все вопросы":
@@ -388,9 +393,9 @@ def single_question(id):
             user.Answers.append(answer)
             question.Answers.append(answer)
             db.session.commit()
-            send_notification(question, user, answer,
-                              User.query.filter_by(
-                                  id=question.user_id).first().mail)
+            # send_notification(question, user, answer,
+            #                   User.query.filter_by(
+            #                       id=question.user_id).first().mail)
             return redirect("/single_question/{}".format(id))
         return redirect("/sign_in")
     question = Question.query.filter_by(id=id).first()

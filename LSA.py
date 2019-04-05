@@ -86,15 +86,24 @@ class LSA:
 
     # Поиск ближайшего предложения
     def find_near(self, coord, other_coords):
-        # x, y = [], []
-        values = []
+        ready = []
         for i in range(len(other_coords)):
-            values.append((round(abs(coord[0] - other_coords[i][0]), 4),
-                           round(abs(coord[1] - other_coords[i][1]), 4)))
-        return other_coords.index(other_coords[values.index(min(values))]) + 1
+            ready.append((i, (round(abs(coord[0] - other_coords[i][0]), 4),
+                              round(abs(coord[1] - other_coords[i][1]), 4))))
+
+        ready = sorted(ready, key=lambda x: x[1])
+
+        # print(ready)
+
+        return ready
+
+        # return other_coords.index(other_coords[values.index(min(values))]) + 1
+        # return sorted(values)
 
     def main(self):
-        docs_copy = self.docs.copy()
+        self.docs_copy = self.docs.copy()
+
+        # print("DOCS_COPY", self.docs_copy)
 
         for i in range(len(self.docs)):
             self.docs[i] = self.stop_symbols(self.docs[i])
@@ -130,16 +139,24 @@ class LSA:
         print(new_coord)
         print()
 
-        return docs_copy[self.find_near(new_coord[0], new_coord[1:])]
+        total = []
+        ready = self.find_near(new_coord[0], new_coord[1:])
+
+        print(ready)
+
+        for i in range(len(ready)):
+            total.append(self.docs_copy[ready[i][0] + 1])
+
+        return total
 
 
 if __name__ == '__main__':
     print(LSA('Британская полиция знает о местонахождении основателя WikiLeaks',
-        ['В суде США начинается процесс против россиянина, рассылавшего спам',
-         'Церемонию вручения Нобелевской премии мира бойкотируют 19 стран',
-         'В Великобритании арестован основатель сайта Wikileaks Джулиан Ассандж',
-         'Украина игнорирует церемонию вручения Нобелевской премии',
-         'Шведский суд отказался рассматривать апелляцию основателя Wikileaks',
-         'НАТО и США разработали планы обороны стран Балтии против России',
-         'Полиция Великобритании нашла основателя WikiLeaks, но, не арестовал',
-         'В Стокгольме и Осло сегодня состоится вручение Нобелевских премий']).main())
+              ['В суде США начинается процесс против россиянина, рассылавшего спам',
+               'Церемонию вручения Нобелевской премии мира бойкотируют 19 стран',
+               'В Великобритании арестован основатель сайта Wikileaks Джулиан Ассандж',
+               'Украина игнорирует церемонию вручения Нобелевской премии',
+               'Шведский суд отказался рассматривать апелляцию основателя Wikileaks',
+               'НАТО и США разработали планы обороны стран Балтии против России',
+               'Полиция Великобритании нашла основателя WikiLeaks, но, не арестовал',
+               'В Стокгольме и Осло сегодня состоится вручение Нобелевских премий']).main())
