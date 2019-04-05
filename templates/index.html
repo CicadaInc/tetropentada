@@ -35,7 +35,7 @@
         <p>
             <div class="text-question">
                 <a href="/single_question/{{ quest.id }}">{{ quest.title }}</a>
-                <span class="badge badge-primary">{{ quest.tag }}</span>
+                <a href="/tag/{{ quest.tag }}"><span class="badge badge-primary">{{ quest.tag }}</span></a>
 
             </div>
             <div class="count-answers">Ответов: {{ len(quest.Answers) }}</div>

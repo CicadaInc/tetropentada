@@ -3,6 +3,7 @@ import smtplib
 from email.header import Header
 from email.mime.text import MIMEText
 
+from LSA import LSA
 from flask import Flask, render_template, url_for, session, redirect
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import FlaskForm
@@ -18,32 +19,33 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///tetropentada.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
-TAGS = [('#Все вопросы', 'Все вопросы'),
-        ('#Авто, Мото', 'Авто, Мото'),
-        ('#Бизнес, Финансы', 'Бизнес, Финансы'),
-        ('#Города и Страны', 'Города и Страны'),
-        ('#Гороскопы, Магия, Гадания', 'Гороскопы, Магия, Гадания'),
-        ('#Домашние задания', 'Домашние задания'),
-        ('#Досуг, Развлечения', 'Досуг, Развлечения'),
-        ('#Еда, Кулинария', 'Еда, Кулинария'),
-        ('#Животные, Растения', 'Животные, Растения'),
-        ('#Знакомства, Любовь, Отношения', 'Знакомства, Любовь, Отношения'),
-        ('#Искусство и Культура', 'Искусство и Культура'),
-        ('#Компьютерные и Видео игры', 'Компьютерные и Видео игры'),
-        ('#Компьютеры, Связь', 'Компьютеры, Связь'),
-        ('#Красота и Здоровье', 'Красота и Здоровье'),
-        ('#Наука, Техника, Языки', 'Наука, Техника, Языки'),
-        ('#Образование', 'Образование'),
-        ('#Общество, Политика, СМИ', 'Общество, Политика, СМИ'),
-        ('#Программирование', 'Программирование'),
-        ('#Путешествия, Туризм', 'Путешествия, Туризм'),
-        ('#Работа, Карьера', 'Работа, Карьера'),
-        ('#Семья, Дом, Дети', 'Семья, Дом, Дети'),
-        ('#Спорт', 'Спорт'),
-        ('#Стиль, Мода, Звезды', 'Стиль, Мода, Звезды'),
-        ('#Товары и Услуги', 'Товары и Услуги'),
-        ('#Философия, Непознанное', 'Философия, Непознанное'),
-        ('#Юмор', 'Юмор')]
+TAGS = [('Все вопросы', 'Все вопросы'),
+        ('Авто, Мото', 'Авто, Мото'),
+        ('Бизнес, Финансы', 'Бизнес, Финансы'),
+        ('Города и Страны', 'Города и Страны'),
+        ('Гороскопы, Магия, Гадания', 'Гороскопы, Магия, Гадания'),
+        ('Домашние задания', 'Домашние задания'),
+        ('Досуг, Развлечения', 'Досуг, Развлечения'),
+        ('Еда, Кулинария', 'Еда, Кулинария'),
+        ('Животные, Растения', 'Животные, Растения'),
+        ('Знакомства, Любовь, Отношения', 'Знакомства, Любовь, Отношения'),
+        ('Искусство и Культура', 'Искусство и Культура'),
+        ('Компьютерные и Видео игры', 'Компьютерные и Видео игры'),
+        ('Компьютеры, Связь', 'Компьютеры, Связь'),
+        ('Красота и Здоровье', 'Красота и Здоровье'),
+        ('Наука, Техника, Языки', 'Наука, Техника, Языки'),
+        ('Образование', 'Образование'),
+        ('Общество, Политика, СМИ', 'Общество, Политика, СМИ'),
+        ('Программирование', 'Программирование'),
+        ('Путешествия, Туризм', 'Путешествия, Туризм'),
+        ('Работа, Карьера', 'Работа, Карьера'),
+        ('Семья, Дом, Дети', 'Семья, Дом, Дети'),
+        ('Спорт', 'Спорт'),
+        ('Стиль, Мода, Звезды', 'Стиль, Мода, Звезды'),
+        ('Товары и Услуги', 'Товары и Услуги'),
+        ('Философия, Непознанное', 'Философия, Непознанное'),
+        ('Юмор', 'Юмор'),
+        ('Другое', 'Другое')]
 
 
 class User(db.Model):
@@ -130,7 +132,7 @@ class ProfileAddPhotoForm(FlaskForm):
 class AddQuestionForm(FlaskForm):
     title = StringField(validators=[DataRequired()])
     content = TextAreaField(validators=[DataRequired()])
-    tags = SelectField(choices=TAGS)
+    tags = SelectField(choices=TAGS[1:])
     submit = SubmitField('Добавить вопрос')
 
 
@@ -142,7 +144,7 @@ class AnswerQuestionForm(FlaskForm):
 def send_notification(question, user, answer, email):
     # Настройки
     mail_sender = 'tetropentada@mail.ru'
-    mail_receiver = 'tetropentada@mail.ru'
+    mail_receiver = email
     username = 'tetropentada@mail.ru'
     password = 'minecraft3301'
     server = smtplib.SMTP('smtp.mail.ru:587')
@@ -249,6 +251,11 @@ def index(my_quests):
         search = form.search.data
         questions = Question.query.all()
         sort = form.sort.data
+
+        # SMART SEARCH
+        response = LSA(search, [question.title for question in
+                                Question.query.all()]).main()
+
         ready_questions = []
         for question in questions:
             if sort != "#Все вопросы":
@@ -257,10 +264,7 @@ def index(my_quests):
                     question.content).upper()) and question.tag == sort:
                     ready_questions.append(question)
             else:
-                if search.upper() in str(
-                        question.title).upper() or search.upper() in str(
-                    question.content).upper():
-                    ready_questions.append(question)
+                ready_questions.append(question)
         return render_template("index.html", title='Tetropentada', form=form,
                                len=len,
                                questions=ready_questions,
@@ -283,16 +287,6 @@ def index(my_quests):
                                    icon=url_for('static',
                                                 filename='images/icon.png'))
         return redirect("/sign_in")
-
-    # print(len(Question.query.all()))
-    # count_answers = Answer(content=form.content.data, user_id=session['user_id'], question_id=id)
-    # Answer.query.filter_by(question_id=id)
-
-    # print(Answer.query.filter_by(question_id=1).content)
-    # print(Question.query.all())
-
-    # for question in Question.query.all():
-    #     print(question.id)
 
     return render_template("index.html", title='Tetropentada', my_quests=False,
                            len=len,
@@ -388,9 +382,6 @@ def single_question(id):
             user.Answers.append(answer)
             question.Answers.append(answer)
             db.session.commit()
-            send_notification(question, user, answer,
-                              User.query.filter_by(
-                                  id=question.user_id).first().mail)
             return redirect("/single_question/{}".format(id))
         return redirect("/sign_in")
     question = Question.query.filter_by(id=id).first()
@@ -421,15 +412,31 @@ def sign_out():
     session.pop('user_id')
     return redirect("/main")
 
+@app.route('/tag/<tag_name>')
+def tag(tag_name):
+    form = Search_and_Sort()
+    questions = Question.query.all()
+    ready_questions = []
+    for question in questions:
+        if question.tag == tag_name:
+            ready_questions.append(question)
+    return render_template("tag.html", title='Tetropentada', form=form,
+                           len=len,
+                           questions=ready_questions,
+                           style=url_for('static', filename='cover.css'),
+                           bootstrap=url_for('static',
+                                             filename='bootstrap.min.css'),
+                           icon=url_for('static',
+                                        filename='images/icon.png'))
 
 @app.route(
     "/best_answer/<int:user_id>/<int:quest_id>/<int:answer_id>/<int:set>")
 def best_answer(user_id, quest_id, answer_id, set):
     if set:
-        User.query.filter_by(id=user_id).first().rating += 6
+        User.query.filter_by(id=user_id).first().rating += 10
         Answer.query.filter_by(id=answer_id).first().best = 1
     else:
-        User.query.filter_by(id=user_id).first().rating -= 6
+        User.query.filter_by(id=user_id).first().rating -= 10
         Answer.query.filter_by(id=answer_id).first().best = 0
     db.session.commit()
     return redirect("/single_question/{}".format(quest_id))
@@ -438,10 +445,10 @@ def best_answer(user_id, quest_id, answer_id, set):
 @app.route("/bad_answer/<int:user_id>/<int:quest_id>/<int:answer_id>/<int:set>")
 def bad_answer(user_id, quest_id, answer_id, set):
     if set:
-        User.query.filter_by(id=user_id).first().rating -= 10
+        User.query.filter_by(id=user_id).first().rating -= 4
         Answer.query.filter_by(id=answer_id).first().best = -1
     else:
-        User.query.filter_by(id=user_id).first().rating += 10
+        User.query.filter_by(id=user_id).first().rating += 4
         Answer.query.filter_by(id=answer_id).first().best = 0
     db.session.commit()
     return redirect("/single_question/{}".format(quest_id))
