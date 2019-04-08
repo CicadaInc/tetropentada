@@ -245,6 +245,11 @@ input {
   font-size: 12px;
 }
 
+.status {
+  color: purple;
+  padding-bottom: 5px;
+}
+
 /*.answer {
   background-color: #e6f9e6;
 }*/
@@ -257,6 +262,10 @@ input {
 .count-answers-answered {
   font-size: 18px;
   color: green;
+}
+
+.need-to-read {
+  font-size: 6px;
 }
 
 /*

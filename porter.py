@@ -66,4 +66,4 @@ class Porter:
 
 
 if __name__ == '__main__':
-    print(Porter.stem('британская'))
+    print(Porter.stem('собака'))

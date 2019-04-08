@@ -2,7 +2,7 @@
 
 {% block nav %}
 <li><a href="/main">Главная</a></li>
-<li class="active"><a href="/index/0">Вопрос - ответ</a></li>
+<li class="active"><a href="/index/0/none">Вопрос - ответ</a></li>
 {% if session.get('username') %}
     <li><a href="/profile/{{ session['user_id'] }}">{{ session['username'] }}</a></li>
     <li><a href="/sign_out">Выход</a></li>
@@ -20,7 +20,7 @@
                  height="30" width="30">
             {{ author.username }}
         </a>
-        <span class="badge badge-primary">{{ question.tag }}</span>
+        <a href="/index/0/{{ question.tag }}"><span class="badge badge-primary">{{ question.tag }}</span></a>
     </div>
     <h1>{{ question.title }}</h1>
     <h4>{{ question.content }}</h4><br>
@@ -36,7 +36,7 @@
                     </a>
                     {% if author.username == session['username'] and User.query.filter_by(id=answer.user_id).first().id != session['user_id'] %}
                         {% if answers.filter_by(best=1).all() %}
-                            {% if answer.best %}
+                            {% if answer.best == 1 %}
                                 <a href="/best_answer/{{ User.query.filter_by(id=answer.user_id).first().id }}/{{ question.id }}/{{ answer.id }}/0">Не лучший ответ</a>
                             {% endif %}
                         {% elif answer.best != -1 %}
@@ -44,7 +44,7 @@
                         {% endif %}
 
                         {% if answers.filter_by(best=-1).all() %}
-                            {% if answer.best %}
+                            {% if answer.best == -1 %}
                                 <a href="/bad_answer/{{ User.query.filter_by(id=answer.user_id).first().id }}/{{ question.id }}/{{ answer.id }}/0">Не плохой ответ</a>
                             {% endif %}
                         {% elif answer.best != 1 %}
@@ -57,10 +57,10 @@
         {% endfor %}
     </div><br>
 
-    <form class="form-signin" role="form" method="post">
+    <form role="form" method="post">
         {{ form.hidden_tag() }}
         <div>
-            {{ form.content(class_="form-control", placeholder="Ваш ответ") }}
+            {{ form.content(class="form-control", placeholder="Ваш ответ") }}
             {{ form.submit(class_="btn btn-lg btn-success btn-block") }}
         </div>
     </form>

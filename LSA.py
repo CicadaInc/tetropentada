@@ -1,7 +1,6 @@
 import re
 import string
 import numpy as np
-import math
 from porter import Porter
 
 
@@ -93,56 +92,28 @@ class LSA:
 
         ready = sorted(ready, key=lambda x: x[1])
 
-        # print(ready)
-
         return ready
-
-        # return other_coords.index(other_coords[values.index(min(values))]) + 1
-        # return sorted(values)
 
     def main(self):
         self.docs_copy = self.docs.copy()
 
-        # print("DOCS_COPY", self.docs_copy)
-
         for i in range(len(self.docs)):
             self.docs[i] = self.stop_symbols(self.docs[i])
-
-        [print(elem) for elem in self.docs]
-        print()
-
         for i in range(len(self.docs)):
             self.docs[i] = self.my_stemmer(self.docs[i])
 
-        [print(elem) for elem in self.docs]
-        print()
-
         similar_words = sorted(self.search_common_words(self.docs))
-
-        print(similar_words)
-        print()
-
         matrix = self.drawing_up_the_matrix(similar_words, self.docs)
-        [print(elem) for elem in matrix]
-
         U, S, Vt = np.linalg.svd(matrix)
-        print()
 
-        print('Здесь первые 2 строчки Vt матрица')
-        print(-1 * Vt[0:2, :])
-        print()
         coord = -1 * Vt[0:2, :]
         new_coord = []
 
         for i in range(len(self.docs)):
             new_coord.append((round(coord[0][i], 4), round(coord[1][i], 4)))
-        print(new_coord)
-        print()
 
         total = []
         ready = self.find_near(new_coord[0], new_coord[1:])
-
-        print(ready)
 
         for i in range(len(ready)):
             total.append(self.docs_copy[ready[i][0] + 1])
