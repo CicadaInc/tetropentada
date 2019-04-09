@@ -5,7 +5,7 @@ from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileRequired, FileAllowed
 from werkzeug.utils import secure_filename
 from wtforms import StringField, PasswordField, SubmitField, TextAreaField, \
-    SelectField
+    SelectField, BooleanField
 from wtforms.validators import DataRequired, Email
 from wtforms.fields.html5 import EmailField
 import os
@@ -17,6 +17,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 TAGS = [('Все вопросы', 'Все вопросы'),
+        ('Умная сортировка', 'Умная сортировка'),
         ('Авто, Мото', 'Авто, Мото'),
         ('Бизнес, Финансы', 'Бизнес, Финансы'),
         ('Города и Страны', 'Города и Страны'),
@@ -102,6 +103,7 @@ class SearchAndSort(FlaskForm):
     search = StringField()
     submit = SubmitField('Найти')
     sort = SelectField(choices=TAGS)
+    checkbox = BooleanField('Умная сортировка')
     submit_for_sort = SubmitField('Отсортировать по категории')
 
 
@@ -124,7 +126,7 @@ class ProfileAddPhotoForm(FlaskForm):
 class AddQuestionForm(FlaskForm):
     title = StringField(validators=[DataRequired()])
     content = TextAreaField(validators=[DataRequired()])
-    tags = SelectField(choices=TAGS[1:])
+    tags = SelectField(choices=TAGS[2:])
     submit = SubmitField('Добавить вопрос')
 
 
@@ -217,24 +219,48 @@ def registration():
 
 @app.route("/index/<int:my_quests>/<tag>", methods=['POST', 'GET'])
 def index(my_quests, tag):
+
     form = SearchAndSort()
     questions = Question.query.all()
+
     if form.validate_on_submit():
-        tag = form.sort.data
-        if tag != 'Все вопросы':
-            sorted_questions = []
-            for quest in questions:
-                if quest.tag == tag:
-                    sorted_questions.append(quest)
+        if form.checkbox.data:
+            tag = form.sort.data
+            if tag != 'Все вопросы':
+                sorted_questions = []
+                for quest in questions:
+                    if quest.tag == tag:
+                        sorted_questions.append(quest)
+            else:
+                sorted_questions = questions.copy()
+            try:
+                sorted_titles = LSA(form.search.data,
+                                    [question.title for question in sorted_questions]).main()
+                sorted_questions = sorted(sorted_questions,
+                                          key=lambda question: sorted_titles.index(question.title))
+            except:
+                pass
         else:
-            sorted_questions = questions.copy()
-        try:
-            sorted_titles = LSA(form.search.data,
-                                [question.title for question in sorted_questions]).main()
-            sorted_questions = sorted(sorted_questions,
-                                      key=lambda question: sorted_titles.index(question.title))
-        except:
-            pass
+            search = form.search.data
+            tag = form.sort.data
+            if tag != 'Все вопросы':
+                sorted_questions = []
+                for quest in questions:
+                    if quest.tag == tag:
+                        sorted_questions.append(quest)
+            else:
+                sorted_questions = []
+                print(questions)
+                for quest in questions:
+                    if str(search).upper() in str(quest.title).upper() or str(search).upper() in str(quest.content).upper():
+                        sorted_questions.append(quest)
+            try:
+                sorted_titles = LSA(form.search.data,
+                                    [question.title for question in sorted_questions]).main()
+                sorted_questions = sorted(sorted_questions,
+                                          key=lambda question: sorted_titles.index(question.title))
+            except:
+                pass
     elif tag != 'none':
         form.sort.data = tag
         if tag != 'Все вопросы':
@@ -414,4 +440,4 @@ def get_status(pos):
     return 'Супер админ'
 
 
-app.run(port=8080, host='127.0.0.1')
+app.run(port=8080, host='127.0.0.1', debug=True)
