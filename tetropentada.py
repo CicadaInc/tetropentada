@@ -17,7 +17,6 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 TAGS = [('Все вопросы', 'Все вопросы'),
-        ('Умная сортировка', 'Умная сортировка'),
         ('Авто, Мото', 'Авто, Мото'),
         ('Бизнес, Финансы', 'Бизнес, Финансы'),
         ('Города и Страны', 'Города и Страны'),
@@ -126,7 +125,7 @@ class ProfileAddPhotoForm(FlaskForm):
 class AddQuestionForm(FlaskForm):
     title = StringField(validators=[DataRequired()])
     content = TextAreaField(validators=[DataRequired()])
-    tags = SelectField(choices=TAGS[2:])
+    tags = SelectField(choices=TAGS[1:])
     submit = SubmitField('Добавить вопрос')
 
 
@@ -246,7 +245,7 @@ def index(my_quests, tag):
             if tag != 'Все вопросы':
                 sorted_questions = []
                 for quest in questions:
-                    if quest.tag == tag:
+                    if quest.tag == tag and (str(search).upper() in str(quest.title).upper() or str(search).upper() in str(quest.content).upper()):
                         sorted_questions.append(quest)
             else:
                 sorted_questions = []
