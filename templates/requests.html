@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block nav %}
+
+{% if session['user_id'] == 0 %}
+    <li class="active"><a href="/requests">Запросы</a></li>
+{% endif %}
+
+<li><a href="/main">Главная</a></li>
+<li><a href="/index/0/none">Вопрос - ответ</a></li>
+{% if session.get('username') %}
+    <li><a href="/profile/{{ session['user_id'] }}">{{ session.get('username') }}</a></li>
+    <li><a href="/sign_out">Выход</a></li>
+{% else %}
+    <li><a href="/registration">Регистрация</a></li>
+    <li><a href="/sign_in">Вход</a></li>
+{% endif %}
+{% endblock %}
+
+{% block cover_container %}
+<div class="container">
+	Here will be list of requests...
+</div>
+{% endblock %}
