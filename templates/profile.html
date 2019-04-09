@@ -29,7 +29,7 @@
 	<div class="username">
 		{{ user.username }}
 	</div>
-	<div class="status">Статус в сообществе: {{ user.status }}</div>
+	<div class="status">Статус в сообществе: {{ status }}</div>
 	<div class="rating">Рейтинг: {{ user.rating }}</div>
 	<div>{{ user.name }} {{ user.surname }}</div>
 	<div>{{ user.mail }}</div>
@@ -42,8 +42,16 @@
 			<div>{{ form.submit() }}</div>
 		</form>
 	{% endif %}
-	{% if session['user_id'] == 0 and user.status != "Админ" %}
-    	<button type="button" class="btn btn-danger">Забанить</button>
+	{% if (session['user_id'] == 0 and user.pos != 4) or (session_user.pos == 2 and user.id != session_user.id) %}
+		{% if user.pos == 3 %}
+			<button type="button" class="btn btn-danger">
+				<a href="/set_ban_status/{{ user.id }}/0">Разбанить</a>
+			</button>
+		{% else %}
+			<button type="button" class="btn btn-danger">
+				<a href="/set_ban_status/{{ user.id }}/3">Забанить</a>
+			</button>
+		{% endif %}
 	{% endif %}
 </div>
 {% endblock %}

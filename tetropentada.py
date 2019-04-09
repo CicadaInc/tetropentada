@@ -47,27 +47,27 @@ TAGS = [('Все вопросы', 'Все вопросы'),
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(80), unique=True, nullable=False)
-    mail = db.Column(db.String(80), unique=True, nullable=False)
-    password = db.Column(db.String(80), unique=False, nullable=False)
-    name = db.Column(db.String(80), unique=False, nullable=False)
-    surname = db.Column(db.String(80), unique=False, nullable=False)
-    avatar = db.Column(db.String(80), unique=False, nullable=False)
-    rating = db.Column(db.Integer, unique=False, nullable=False)
-    status = db.Column(db.String(80), unique=False, nullable=False)
+    username = db.Column(db.String(80), unique=True)
+    mail = db.Column(db.String(80), unique=True)
+    password = db.Column(db.String(80))
+    name = db.Column(db.String(80))
+    surname = db.Column(db.String(80))
+    avatar = db.Column(db.String(80))
+    rating = db.Column(db.Integer)
+    pos = db.Column(db.Integer)
 
     def __repr__(self):
-        return '<User {} {} {} {} {} {} {} {}>'.format(
+        return '<User {} {} {} {} {} {} {} {} {}>'.format(
             self.id, self.username, self.mail, self.password, self.name,
-            self.surname, self.avatar, self.rating)
+            self.surname, self.avatar, self.pos, self.rating)
 
 
 class Question(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(80), unique=False, nullable=False)
-    content = db.Column(db.String(80), unique=False, nullable=False)
-    tag = db.Column(db.String(80), unique=False, nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    title = db.Column(db.String(80))
+    content = db.Column(db.String(80))
+    tag = db.Column(db.String(80))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     user = db.relationship('User', backref=db.backref('Questions', lazy=True))
 
     def __repr__(self):
@@ -77,22 +77,16 @@ class Question(db.Model):
 
 class Answer(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    content = db.Column(db.String(80), unique=False, nullable=False)
-    question_id = db.Column(db.Integer, db.ForeignKey('question.id'), nullable=False)
+    content = db.Column(db.String(80))
+    question_id = db.Column(db.Integer, db.ForeignKey('question.id'))
     best = db.Column(db.Integer, unique=False, nullable=False)
     question = db.relationship('Question', backref=db.backref('Answers', lazy=True))
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     user = db.relationship('User', backref=db.backref('Answers', lazy=True))
 
     def __repr__(self):
         return '<Answer {} {} {} {} {}>'.format(
             self.id, self.content, self.best, self.user_id, self.question_id)
-
-
-class Requests(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    reason = db.Column(db.String(80), unique=False, nullable=False)
 
 
 db.create_all()
@@ -111,19 +105,14 @@ class SearchAndSort(FlaskForm):
     submit_for_sort = SubmitField('Отсортировать по категории')
 
 
-class Unsubscribe(FlaskForm):
-    password = PasswordField(validators=[DataRequired()])
-    submit = SubmitField('Отписаться от уведомлений')
-
-
 class RegistrationForm(FlaskForm):
     name = StringField(validators=[DataRequired()])
     surname = StringField(validators=[DataRequired()])
     username = StringField(validators=[DataRequired()])
     mail = EmailField(validators=[DataRequired(), Email()])
     password = PasswordField(validators=[DataRequired()])
-    choice = SelectField(choices=[('Я - участник', 'Я - участник'),
-                                  ('Я - модератор', 'Я - модератор')])
+    pos = SelectField(choices=[('Я - участник', 'Я - участник'),
+                               ('Я - модератор', 'Я - модератор')])
     submit = SubmitField('Зарегистрироваться')
 
 
@@ -147,14 +136,13 @@ class AnswerQuestionForm(FlaskForm):
 @app.route("/")
 @app.route("/main")
 def main():
-    # print(session.get('user_id'))
     if session.get('username'):
-        print(session.get('username'))
-        status = User.query.filter_by(id=session.get('user_id')).first().status
+        pos = User.query.filter_by(id=session.get('user_id')).first().pos
         return render_template("main.html", title='Tetropentada',
                                style=url_for('static', filename='cover.css'),
                                bootstrap=url_for('static', filename='bootstrap.min.css'), User=User,
-                               icon=url_for('static', filename='images/icon.png'), status=status)
+                               icon=url_for('static', filename='images/icon.png'),
+                               status=get_status(pos))
     return render_template("main.html", title='Tetropentada',
                            style=url_for('static', filename='cover.css'),
                            bootstrap=url_for('static', filename='bootstrap.min.css'),
@@ -184,10 +172,11 @@ def sign_in():
 
 @app.route("/requests", methods=['POST', 'GET'])
 def requests():
-    return render_template('requests.html', title='Tetropentada',
+    users = User.query.filter_by(pos=1).all()
+    return render_template('requests.html', title='Tetropentada', User=User, users=users,
                            style=url_for('static', filename='cover.css'),
                            bootstrap=url_for('static', filename='bootstrap.min.css'),
-                           icon=url_for('static', filename='images/icon.png'), User=User)
+                           icon=url_for('static', filename='images/icon.png'))
 
 
 @app.route("/registration", methods=['POST', 'GET'])
@@ -195,24 +184,35 @@ def registration():
     form = RegistrationForm()
     if form.validate_on_submit():
         username = form.username.data
-        if not User.query.filter_by(username=username).first():
-            user = User(username=username, mail=form.mail.data,
-                        password=form.password.data,
-                        name=form.name.data, surname=form.surname.data,
-                        avatar='guest.png', rating=0)
-            db.session.add(user)
-            db.session.commit()
-            session['username'] = username
-            session['user_id'] = user.id
-            return redirect("/index/0/none")
-        return render_template("wrong_registration.html", title='Tetropentada', form=form,
-                               style=url_for('static', filename='cover.css'),
-                               bootstrap=url_for('static', filename='bootstrap.min.css'),
-                               icon=url_for('static', filename='images/icon.png'), User=User)
-    return render_template("registration.html", title='Tetropentada', form=form,
+        mail = form.mail.data
+        if User.query.filter_by(mail=mail).first():
+            return render_template("wrong_registration.html", title='Tetropentada', form=form,
+                                   message='Такой e-mail уже занят',
+                                   style=url_for('static', filename='cover.css'),
+                                   bootstrap=url_for('static', filename='bootstrap.min.css'),
+                                   icon=url_for('static', filename='images/icon.png'))
+        if User.query.filter_by(username=username).first():
+            return render_template("wrong_registration.html", title='Tetropentada', form=form,
+                                   message='Такое имя пользователя уже занято',
+                                   style=url_for('static', filename='cover.css'),
+                                   bootstrap=url_for('static', filename='bootstrap.min.css'),
+                                   icon=url_for('static', filename='images/icon.png'))
+        pos = 1
+        if form.pos == 'Я - участник':
+            pos = 0
+        user = User(username=username, mail=mail,
+                    password=form.password.data,
+                    name=form.name.data, surname=form.surname.data,
+                    avatar='guest.png', rating=0, pos=pos)
+        db.session.add(user)
+        db.session.commit()
+        session['username'] = username
+        session['user_id'] = user.id
+        return redirect("/index/0/none")
+    return render_template("registration.html", title='Tetropentada', form=form, User=User,
                            style=url_for('static', filename='cover.css'),
                            bootstrap=url_for('static', filename='bootstrap.min.css'),
-                           icon=url_for('static', filename='images/icon.png'), User=User)
+                           icon=url_for('static', filename='images/icon.png'))
 
 
 @app.route("/index/<int:my_quests>/<tag>", methods=['POST', 'GET'])
@@ -247,10 +247,9 @@ def index(my_quests, tag):
     else:
         sorted_questions = questions.copy()
         tag = 'none'
+    current_user = User.query.filter_by(id=session.get('user_id')).first()
     if my_quests:
-        if session.get('username'):
-            print(session.get('user_id'))
-            status = User.query.filter_by(id=session.get('user_id')).first().status
+        if session.get('user_id'):
             return render_template("index.html", title='Tetropentada',
                                    my_quests=True, form=form, len=len, tag=tag,
                                    questions=[quest for quest in sorted_questions if
@@ -258,7 +257,7 @@ def index(my_quests, tag):
                                    style=url_for('static', filename='cover.css'),
                                    bootstrap=url_for('static', filename='bootstrap.min.css'),
                                    icon=url_for('static', filename='images/icon.png'),
-                                   status=status, User=User)
+                                   User=User, current_user=current_user)
         return redirect("/sign_in")
     return render_template("index.html", title='Tetropentada', my_quests=False,
                            len=len, tag=tag,
@@ -266,15 +265,14 @@ def index(my_quests, tag):
                            style=url_for('static', filename='cover.css'),
                            bootstrap=url_for('static', filename='bootstrap.min.css'),
                            icon=url_for('static', filename='images/icon.png'),
-                           User=User)
+                           User=User, current_user=current_user)
 
 
 @app.route("/add_question", methods=['POST', 'GET'])
 def add_question():
-    status = User.query.filter_by(id=session.get('user_id')).first().status
     if session.get('username'):
         form = AddQuestionForm()
-        if form.validate_on_submit() and status != 'Забанен':
+        if form.validate_on_submit():
             user = User.query.filter_by(id=session['user_id']).first()
             user.Questions.append(Question(title=form.title.data, content=form.content.data,
                                            user_id=session['user_id'], tag=form.tags.data))
@@ -306,12 +304,13 @@ def profile(id):
             db.session.commit()
             return redirect("/profile/{}".format(id))
         avatar_name = user.avatar
-        status = User.query.filter_by(id=id).first().status
-        return render_template("profile.html", title='Tetropentada',
+        pos = User.query.filter_by(id=id).first().pos
+        session_user = User.query.filter_by(id=session['user_id']).first()
+        return render_template("profile.html", title='Tetropentada', User=User, session_user=session_user,
                                style=url_for('static', filename='cover.css'),
                                bootstrap=url_for('static', filename='bootstrap.min.css'),
-                               form=form, user=user, status=status,
-                               icon=url_for('static', filename='images/icon.png'), User=User,
+                               form=form, user=user, status=get_status(pos),
+                               icon=url_for('static', filename='images/icon.png'),
                                avatar=url_for('static', filename='avatars/{}'.format(avatar_name)))
     return redirect("/sign_in")
 
@@ -319,16 +318,18 @@ def profile(id):
 @app.route("/single_question/<int:id>", methods=['POST', 'GET'])
 def single_question(id):
     form = AnswerQuestionForm()
-    status = User.query.filter_by(id=id).first().status
     if form.validate_on_submit():
         if session.get('username'):
-            user = User.query.filter_by(id=session['user_id']).first()
-            question = Question.query.filter_by(id=id).first()
-            answer = Answer(content=form.content.data,
-                            user_id=session['user_id'], best=0, question_id=id)
-            user.Answers.append(answer)
-            question.Answers.append(answer)
-            db.session.commit()
+            pos = User.query.filter_by(id=session['user_id']).first().pos
+            if pos != 3:
+                user = User.query.filter_by(id=session['user_id']).first()
+                question = Question.query.filter_by(id=id).first()
+                answer = Answer(content=form.content.data,
+                                user_id=session['user_id'], best=0, question_id=id)
+                user.Answers.append(answer)
+                question.Answers.append(answer)
+                db.session.commit()
+                return redirect("/single_question/{}".format(id))
             return redirect("/single_question/{}".format(id))
         return redirect("/sign_in")
     question = Question.query.filter_by(id=id).first()
@@ -338,7 +339,7 @@ def single_question(id):
                            author=User.query.filter_by(id=question.user_id).first(),
                            form=form, User=User, answers=answers,
                            answers_list=sorted(answers, key=lambda x: x.best, reverse=True),
-                           style=url_for('static', filename='cover.css'), status=status,
+                           style=url_for('static', filename='cover.css'),
                            bootstrap=url_for('static', filename='bootstrap.min.css'),
                            icon=url_for('static', filename='images/icon.png'))
 
@@ -379,6 +380,38 @@ def bad_answer(user_id, quest_id, answer_id, set):
         Answer.query.filter_by(id=answer_id).first().best = 0
     db.session.commit()
     return redirect("/single_question/{}".format(quest_id))
+
+
+@app.route("/set_user_position/<int:user_id>/<int:pos>")
+def set_user_position(user_id, pos):
+    User.query.filter_by(id=user_id).first().pos = pos
+    db.session.commit()
+    if session['user_id'] == 0:
+        return redirect("/requests")
+    return redirect("/index/0/none")
+
+
+@app.route("/set_ban_status/<int:user_id>/<int:pos>")
+def set_ban_status(user_id, pos):
+    user = User.query.filter_by(id=user_id).first()
+    user.pos = pos
+    if pos == 0:
+        for quest in user.Questions:
+            db.session.delete(quest)
+    db.session.commit()
+    return redirect("/profile/{}".format(user_id))
+
+
+def get_status(pos):
+    if pos == 0:
+        return 'Участник'
+    elif pos == 1:
+        return 'Участник (отправен запрос на модерацию)'
+    elif pos == 2:
+        return 'Модератор'
+    elif pos == 3:
+        return 'Забанен'
+    return 'Супер админ'
 
 
 app.run(port=8080, host='127.0.0.1')

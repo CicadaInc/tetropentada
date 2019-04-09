@@ -2,7 +2,7 @@
 
 {% block nav %}
 
-{% if session['user_id'] == 0 %}
+{% if session.get('user_id') == 0 %}
     <li><a href="/requests">Запросы</a></li>
 {% endif %}
 
@@ -19,6 +19,9 @@
 
 {% block cover_container %}
 <div class="container">
+    {% if current_user.pos == 0 %}
+        <a href="/set_user_position/{{ session['user_id'] }}/1">Подать запрос на модерацию</a>
+    {% endif %}
     <form role="form" method="post">
         {{ form.hidden_tag() }}
         {{ form.search(class_="form-control", placeholder="Поиск") }}
@@ -29,7 +32,7 @@
 </div>
 <div class="container">
     <div class="add-question-button">
-        {% if User.query.filter_by(id=session.get('user_id')).first().status != "Забанен" %}
+        {% if current_user.pos != 3 %}
             <a class="btn btn-primary" href="/add_question" role="button">Добавить вопрос</a><br><br>
             {% if my_quests %}
                 <a class="btn btn-primary" href="/index/0/{{ tag }}" role="button">Все вопросы</a>
@@ -53,7 +56,7 @@
                 {% endif %}
             </div>
             <div class="count-answers">Ответов: {{ len(quest.Answers) }}</div>
-            {% if my_quests or session['user_id'] == 0 %}
+            {% if my_quests or session['user_id'] == 0 or current_user.pos == 2 %}
                 <div class="delete-question">
                     <a href="/delete_question/{{ quest.id }}">Удалить вопрос</a>
                 </div>
