@@ -15,31 +15,45 @@
 
     <!-- Custom styles for this template -->
     <link href="{{ style }}" rel="stylesheet">
+
+    <style>
+       textarea {
+        resize: vertical; /* Запрещаем изменять размер */
+       }
+
+    </style>
 </head>
 
 <body>
-    <div class="menu-wrapper">
-        <div class="menu-wrapper-inner">
-            <div class="cover-container">
-                <div class="masthead clearfix">
-                    <div class="inner">
-                        <h3 class="masthead-brand">Tetropentada</h3>
-                        <ul class="nav masthead-nav">
-                            {% block nav %} {% endblock %}
-                        </ul>
-                    </div>
+<div class="menu-wrapper">
+    <div class="menu-wrapper-inner">
+        <div class="cover-container">
+            <div class="masthead clearfix">
+                <div class="inner">
+                    <h3 class="masthead-brand">Tetropentada</h3>
+                    <ul class="nav masthead-nav">
+                        {% block nav %} {% endblock %}
+                    </ul>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
-    <div class="site-wrapper">
-        <div class="site-wrapper-inner">
-            <div class="cover-container">
-                {% block cover_container %} {% endblock %}
-            </div>
-            {% block site_wrapper %} {% endblock %}
+<div class="site-wrapper">
+    <div class="site-wrapper-inner">
+        <div class="cover-container">
+
+            {% if User.query.filter_by(id=session.get('user_id')).first().status == "Забанен" %}
+                <div class="alert alert-danger" role="alert">
+                  Ваш аккаунт забанен за нарушение правил сообщества.
+                </div>
+            {% endif %}
+
+            {% block cover_container %} {% endblock %}
         </div>
+        {% block site_wrapper %} {% endblock %}
     </div>
+</div>
 </body>
 </html>
