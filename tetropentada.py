@@ -12,6 +12,7 @@ import smtplib
 from email.mime.text import MIMEText
 from email.header import Header
 import os
+import datetime
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'Супер секретный мод на майнкрафт'
@@ -71,11 +72,12 @@ class Question(db.Model):
     content = db.Column(db.String(80))
     tag = db.Column(db.String(80))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    date_time = db.Column(db.String(80))
     user = db.relationship('User', backref=db.backref('Questions', lazy=True))
 
     def __repr__(self):
-        return '<Question {} {} {} {} {}>'.format(
-            self.id, self.title, self.tag, self.content, self.user_id)
+        return '<Question {} {} {} {} {} {}>'.format(
+            self.id, self.title, self.tag, self.content, self.date_time, self.user_id)
 
 
 class Answer(db.Model):
@@ -83,13 +85,14 @@ class Answer(db.Model):
     content = db.Column(db.String(80))
     question_id = db.Column(db.Integer, db.ForeignKey('question.id'))
     best = db.Column(db.Integer, unique=False, nullable=False)
+    date_time = db.Column(db.String(80))
     question = db.relationship('Question', backref=db.backref('Answers', lazy=True))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     user = db.relationship('User', backref=db.backref('Answers', lazy=True))
 
     def __repr__(self):
-        return '<Answer {} {} {} {} {}>'.format(
-            self.id, self.content, self.best, self.user_id, self.question_id)
+        return '<Answer {} {} {} {} {} {}>'.format(
+            self.id, self.content, self.best, self.user_id, self.date_time, self.question_id)
 
 
 db.create_all()
@@ -128,7 +131,7 @@ class ProfileAddPhotoForm(FlaskForm):
 class AddQuestionForm(FlaskForm):
     title = StringField(validators=[DataRequired()])
     content = TextAreaField(validators=[DataRequired()])
-    tags = SelectField(choices=TAGS[2:])
+    tags = SelectField(choices=TAGS[1:])
     submit = SubmitField('Добавить вопрос')
 
 
@@ -219,37 +222,6 @@ def registration():
                            icon=url_for('static', filename='images/icon.png'))
 
 
-def get_sorted_questions(tag):
-    questions = Question.query.all()
-
-    if tag != 'Все вопросы':
-        sorted_questions = []
-        for quest in questions:
-            if quest.tag == tag:
-                sorted_questions.append(quest)
-    else:
-        sorted_questions = questions.copy()
-    return sorted_questions
-
-
-def get_search_results(questions, search, lsa):
-    sorted_questions = questions.copy()
-    if lsa:
-        try:
-            sorted_titles = LSA(search,
-                                [question.title for question in questions]).main()
-            sorted_questions = sorted(questions,
-                                      key=lambda question: sorted_titles.index(question.title))
-        except:
-            pass
-    else:
-        sorted_questions = []
-        for quest in questions:
-            if search.lower() in quest.title.lower():
-                sorted_questions.append(quest)
-    return sorted_questions
-
-
 @app.route("/index/<int:my_quests>/<tag>", methods=['POST', 'GET'])
 def index(my_quests, tag):
     form = SearchAndSort()
@@ -293,9 +265,10 @@ def add_question():
     if session.get('username'):
         form = AddQuestionForm()
         if form.validate_on_submit():
-            user = User.query.filter_by(id=session['user_id']).first()
-            user.Questions.append(Question(title=form.title.data, content=form.content.data,
-                                           user_id=session['user_id'], tag=form.tags.data))
+            question = Question(title=form.title.data, content=form.content.data,
+                                user_id=session['user_id'], tag=form.tags.data,
+                                date_time=datetime.datetime.today())
+            db.session.add(question)
             db.session.commit()
             return redirect("/index/1/none")
         return render_template("add_question.html", title='Tetropentada',
@@ -344,8 +317,8 @@ def single_question(id):
             if pos != 3:
                 user = User.query.filter_by(id=session['user_id']).first()
                 question = Question.query.filter_by(id=id).first()
-                answer = Answer(content=form.content.data,
-                                user_id=session['user_id'], best=0, question_id=id)
+                answer = Answer(content=form.content.data, user_id=session['user_id'],
+                                best=0, question_id=id, date_time=datetime.datetime.today())
                 user.Answers.append(answer)
                 question.Answers.append(answer)
                 db.session.commit()
@@ -456,6 +429,37 @@ def send_notification(to, msg):
 
     smtpObj.sendmail(from_, to, msg.as_string())
     smtpObj.quit()
+
+
+def get_sorted_questions(tag):
+    questions = Question.query.all()
+
+    if tag != 'Все вопросы':
+        sorted_questions = []
+        for quest in questions:
+            if quest.tag == tag:
+                sorted_questions.append(quest)
+    else:
+        sorted_questions = questions.copy()
+    return sorted_questions
+
+
+def get_search_results(questions, search, lsa):
+    sorted_questions = questions.copy()
+    if lsa:
+        try:
+            sorted_titles = LSA(search,
+                                [question.title for question in questions]).main()
+            sorted_questions = sorted(questions,
+                                      key=lambda question: sorted_titles.index(question.title))
+        except:
+            pass
+    else:
+        sorted_questions = []
+        for quest in questions:
+            if search.lower() in quest.title.lower():
+                sorted_questions.append(quest)
+    return sorted_questions
 
 
 app.run(port=8080, host='127.0.0.1')
