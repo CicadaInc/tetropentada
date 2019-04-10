@@ -8,6 +8,9 @@ from wtforms import StringField, PasswordField, SubmitField, TextAreaField, \
     SelectField, BooleanField
 from wtforms.validators import DataRequired, Email
 from wtforms.fields.html5 import EmailField
+import smtplib
+from email.mime.text import MIMEText
+from email.header import Header
 import os
 
 app = Flask(__name__)
@@ -102,7 +105,7 @@ class SearchAndSort(FlaskForm):
     search = StringField()
     submit = SubmitField('Найти')
     sort = SelectField(choices=TAGS)
-    checkbox = BooleanField('Умная сортировка')
+    smart_search = BooleanField()
     submit_for_sort = SubmitField('Отсортировать по категории')
 
 
@@ -125,7 +128,7 @@ class ProfileAddPhotoForm(FlaskForm):
 class AddQuestionForm(FlaskForm):
     title = StringField(validators=[DataRequired()])
     content = TextAreaField(validators=[DataRequired()])
-    tags = SelectField(choices=TAGS[1:])
+    tags = SelectField(choices=TAGS[2:])
     submit = SubmitField('Добавить вопрос')
 
 
@@ -216,61 +219,53 @@ def registration():
                            icon=url_for('static', filename='images/icon.png'))
 
 
-@app.route("/index/<int:my_quests>/<tag>", methods=['POST', 'GET'])
-def index(my_quests, tag):
-
-    form = SearchAndSort()
+def get_sorted_questions(tag):
     questions = Question.query.all()
 
-    if form.validate_on_submit():
-        if form.checkbox.data:
-            tag = form.sort.data
-            if tag != 'Все вопросы':
-                sorted_questions = []
-                for quest in questions:
-                    if quest.tag == tag:
-                        sorted_questions.append(quest)
-            else:
-                sorted_questions = questions.copy()
-            try:
-                sorted_titles = LSA(form.search.data,
-                                    [question.title for question in sorted_questions]).main()
-                sorted_questions = sorted(sorted_questions,
-                                          key=lambda question: sorted_titles.index(question.title))
-            except:
-                pass
-        else:
-            search = form.search.data
-            tag = form.sort.data
-            if tag != 'Все вопросы':
-                sorted_questions = []
-                for quest in questions:
-                    if quest.tag == tag and (str(search).upper() in str(quest.title).upper() or str(search).upper() in str(quest.content).upper()):
-                        sorted_questions.append(quest)
-            else:
-                sorted_questions = []
-                print(questions)
-                for quest in questions:
-                    if str(search).upper() in str(quest.title).upper() or str(search).upper() in str(quest.content).upper():
-                        sorted_questions.append(quest)
-            try:
-                sorted_titles = LSA(form.search.data,
-                                    [question.title for question in sorted_questions]).main()
-                sorted_questions = sorted(sorted_questions,
-                                          key=lambda question: sorted_titles.index(question.title))
-            except:
-                pass
-    elif tag != 'none':
-        form.sort.data = tag
-        if tag != 'Все вопросы':
-            sorted_questions = []
-            for quest in questions:
-                if quest.tag == tag:
-                    sorted_questions.append(quest)
-        else:
-            sorted_questions = questions.copy()
+    if tag != 'Все вопросы':
+        sorted_questions = []
+        for quest in questions:
+            if quest.tag == tag:
+                sorted_questions.append(quest)
     else:
         sorted_questions = questions.copy()
+    return sorted_questions
+
+
+def get_search_results(questions, search, lsa):
+    sorted_questions = questions.copy()
+    if lsa:
+        try:
+            sorted_titles = LSA(search,
+                                [question.title for question in questions]).main()
+            sorted_questions = sorted(questions,
+                                      key=lambda question: sorted_titles.index(question.title))
+        except:
+            pass
+    else:
+        sorted_questions = []
+        for quest in questions:
+            if search.lower() in quest.title.lower():
+                sorted_questions.append(quest)
+    return sorted_questions
+
+
+@app.route("/index/<int:my_quests>/<tag>", methods=['POST', 'GET'])
+def index(my_quests, tag):
+    form = SearchAndSort()
+
+    if form.validate_on_submit():
+        tag = form.sort.data
+        if form.smart_search.data:
+            sorted_questions = get_search_results(get_sorted_questions(form.sort.data), form.search.data, True)
+        else:
+            sorted_questions = get_search_results(get_sorted_questions(form.sort.data), form.search.data, False)
+        form.search.data = ''
+    elif tag != 'none':
+        form.sort.data = tag
+        sorted_questions = get_sorted_questions(form.sort.data)
+    else:
+        sorted_questions = Question.query.all().copy()
         tag = 'none'
     current_user = User.query.filter_by(id=session.get('user_id')).first()
     if my_quests:
@@ -354,6 +349,13 @@ def single_question(id):
                 user.Answers.append(answer)
                 question.Answers.append(answer)
                 db.session.commit()
+
+                question = Question.query.filter_by(id=answer.question_id).first()
+                user1 = User.query.filter_by(id=question.user_id).first()
+                send_notification(user1.mail,
+                                  "Пользователь {} дал ответ на ваш вопрос \"{}\"\n\n{}".format(user1.username,
+                                                                                                question.title,
+                                                                                                answer.content))
                 return redirect("/single_question/{}".format(id))
             return redirect("/single_question/{}".format(id))
         return redirect("/sign_in")
@@ -439,4 +441,21 @@ def get_status(pos):
     return 'Супер админ'
 
 
-app.run(port=8080, host='127.0.0.1', debug=True)
+def send_notification(to, msg):
+    smtpObj = smtplib.SMTP('smtp.yandex.ru', 587)
+    smtpObj.ehlo()
+    smtpObj.starttls()
+
+    from_ = "mark.2406@yandex.ru"
+    smtpObj.login(from_, 'Mark.240607777777sssssss')
+
+    msg = MIMEText(msg, 'plain', 'utf-8')
+    msg['Subject'] = Header('Вы получили ответ на свой вопрос', 'utf-8')
+    msg['From'] = from_
+    msg['To'] = to
+
+    smtpObj.sendmail(from_, to, msg.as_string())
+    smtpObj.quit()
+
+
+app.run(port=8080, host='127.0.0.1')
