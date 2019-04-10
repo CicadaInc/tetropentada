@@ -2,7 +2,7 @@
 
 {% block nav %}
 
-{% if session['user_id'] == 0 %}
+{% if session.get('user_id') == 0 %}
     <li><a href="/requests">Запросы</a></li>
 {% endif %}
 
@@ -22,7 +22,7 @@
     <h1 class="cover-heading">Tetropentada</h1>
     <p class="lead">Задавайте вопросы, делитесь ответами и бороздите просторы интернета!</p>
     <p class="lead">
-        {% if session.get('user_id') %}
+        {% if session.get('user_id') or session.get('user_id') == 0 %}
             <a href="/index/0/none" class="btn btn-lg btn-default">Вопрос - ответ</a>
         {% else %}
             <a href="/registration" class="btn btn-lg btn-default">Зарегистрироваться</a>

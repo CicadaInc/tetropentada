@@ -5,7 +5,7 @@ from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileRequired, FileAllowed
 from werkzeug.utils import secure_filename
 from wtforms import StringField, PasswordField, SubmitField, TextAreaField, \
-    SelectField
+    SelectField, BooleanField
 from wtforms.validators import DataRequired, Email
 from wtforms.fields.html5 import EmailField
 import os
@@ -55,7 +55,6 @@ class User(db.Model):
     avatar = db.Column(db.String(80))
     rating = db.Column(db.Integer)
     pos = db.Column(db.Integer)
-    status = db.Column(db.String(80))
 
     def __repr__(self):
         return '<User {} {} {} {} {} {} {} {} {}>'.format(
@@ -90,12 +89,6 @@ class Answer(db.Model):
             self.id, self.content, self.best, self.user_id, self.question_id)
 
 
-class Requests(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    reason = db.Column(db.String(80))
-
-
 db.create_all()
 
 
@@ -109,12 +102,8 @@ class SearchAndSort(FlaskForm):
     search = StringField()
     submit = SubmitField('Найти')
     sort = SelectField(choices=TAGS)
+    checkbox = BooleanField('Умная сортировка')
     submit_for_sort = SubmitField('Отсортировать по категории')
-
-
-class Unsubscribe(FlaskForm):
-    password = PasswordField(validators=[DataRequired()])
-    submit = SubmitField('Отписаться от уведомлений')
 
 
 class RegistrationForm(FlaskForm):
@@ -136,7 +125,7 @@ class ProfileAddPhotoForm(FlaskForm):
 class AddQuestionForm(FlaskForm):
     title = StringField(validators=[DataRequired()])
     content = TextAreaField(validators=[DataRequired()])
-    tags = SelectField(choices=TAGS[1:])
+    tags = SelectField(choices=TAGS[2:])
     submit = SubmitField('Добавить вопрос')
 
 
@@ -148,14 +137,13 @@ class AnswerQuestionForm(FlaskForm):
 @app.route("/")
 @app.route("/main")
 def main():
-    # print(session.get('user_id'))
     if session.get('username'):
-        print(session.get('username'))
-        status = User.query.filter_by(id=session.get('user_id')).first().status
+        pos = User.query.filter_by(id=session.get('user_id')).first().pos
         return render_template("main.html", title='Tetropentada',
                                style=url_for('static', filename='cover.css'),
                                bootstrap=url_for('static', filename='bootstrap.min.css'), User=User,
-                               icon=url_for('static', filename='images/icon.png'), status=status)
+                               icon=url_for('static', filename='images/icon.png'),
+                               status=get_status(pos))
     return render_template("main.html", title='Tetropentada',
                            style=url_for('static', filename='cover.css'),
                            bootstrap=url_for('static', filename='bootstrap.min.css'),
@@ -185,10 +173,11 @@ def sign_in():
 
 @app.route("/requests", methods=['POST', 'GET'])
 def requests():
-    return render_template('requests.html', title='Tetropentada',
+    users = User.query.filter_by(pos=1).all()
+    return render_template('requests.html', title='Tetropentada', User=User, users=users,
                            style=url_for('static', filename='cover.css'),
                            bootstrap=url_for('static', filename='bootstrap.min.css'),
-                           icon=url_for('static', filename='images/icon.png'), User=User)
+                           icon=url_for('static', filename='images/icon.png'))
 
 
 @app.route("/registration", methods=['POST', 'GET'])
@@ -196,49 +185,81 @@ def registration():
     form = RegistrationForm()
     if form.validate_on_submit():
         username = form.username.data
-        if not User.query.filter_by(username=username).first():
-            pos = 1
-            if form.pos == 'Я - участник':
-                pos = 0
-            user = User(username=username, mail=form.mail.data,
-                        password=form.password.data,
-                        name=form.name.data, surname=form.surname.data,
-                        avatar='guest.png', rating=0, pos=pos)
-            db.session.add(user)
-            db.session.commit()
-            session['username'] = username
-            session['user_id'] = user.id
-            return redirect("/index/0/none")
-        return render_template("wrong_registration.html", title='Tetropentada', form=form,
-                               style=url_for('static', filename='cover.css'),
-                               bootstrap=url_for('static', filename='bootstrap.min.css'),
-                               icon=url_for('static', filename='images/icon.png'), User=User)
-    return render_template("registration.html", title='Tetropentada', form=form,
+        mail = form.mail.data
+        if User.query.filter_by(mail=mail).first():
+            return render_template("wrong_registration.html", title='Tetropentada', form=form,
+                                   message='Такой e-mail уже занят',
+                                   style=url_for('static', filename='cover.css'),
+                                   bootstrap=url_for('static', filename='bootstrap.min.css'),
+                                   icon=url_for('static', filename='images/icon.png'))
+        if User.query.filter_by(username=username).first():
+            return render_template("wrong_registration.html", title='Tetropentada', form=form,
+                                   message='Такое имя пользователя уже занято',
+                                   style=url_for('static', filename='cover.css'),
+                                   bootstrap=url_for('static', filename='bootstrap.min.css'),
+                                   icon=url_for('static', filename='images/icon.png'))
+        pos = 1
+        if form.pos == 'Я - участник':
+            pos = 0
+        user = User(username=username, mail=mail,
+                    password=form.password.data,
+                    name=form.name.data, surname=form.surname.data,
+                    avatar='guest.png', rating=0, pos=pos)
+        db.session.add(user)
+        db.session.commit()
+        session['username'] = username
+        session['user_id'] = user.id
+        return redirect("/index/0/none")
+    return render_template("registration.html", title='Tetropentada', form=form, User=User,
                            style=url_for('static', filename='cover.css'),
                            bootstrap=url_for('static', filename='bootstrap.min.css'),
-                           icon=url_for('static', filename='images/icon.png'), User=User)
+                           icon=url_for('static', filename='images/icon.png'))
 
 
 @app.route("/index/<int:my_quests>/<tag>", methods=['POST', 'GET'])
 def index(my_quests, tag):
+
     form = SearchAndSort()
     questions = Question.query.all()
+
     if form.validate_on_submit():
-        tag = form.sort.data
-        if tag != 'Все вопросы':
-            sorted_questions = []
-            for quest in questions:
-                if quest.tag == tag:
-                    sorted_questions.append(quest)
+        if form.checkbox.data:
+            tag = form.sort.data
+            if tag != 'Все вопросы':
+                sorted_questions = []
+                for quest in questions:
+                    if quest.tag == tag:
+                        sorted_questions.append(quest)
+            else:
+                sorted_questions = questions.copy()
+            try:
+                sorted_titles = LSA(form.search.data,
+                                    [question.title for question in sorted_questions]).main()
+                sorted_questions = sorted(sorted_questions,
+                                          key=lambda question: sorted_titles.index(question.title))
+            except:
+                pass
         else:
-            sorted_questions = questions.copy()
-        try:
-            sorted_titles = LSA(form.search.data,
-                                [question.title for question in sorted_questions]).main()
-            sorted_questions = sorted(sorted_questions,
-                                      key=lambda question: sorted_titles.index(question.title))
-        except:
-            pass
+            search = form.search.data
+            tag = form.sort.data
+            if tag != 'Все вопросы':
+                sorted_questions = []
+                for quest in questions:
+                    if quest.tag == tag:
+                        sorted_questions.append(quest)
+            else:
+                sorted_questions = []
+                print(questions)
+                for quest in questions:
+                    if str(search).upper() in str(quest.title).upper() or str(search).upper() in str(quest.content).upper():
+                        sorted_questions.append(quest)
+            try:
+                sorted_titles = LSA(form.search.data,
+                                    [question.title for question in sorted_questions]).main()
+                sorted_questions = sorted(sorted_questions,
+                                          key=lambda question: sorted_titles.index(question.title))
+            except:
+                pass
     elif tag != 'none':
         form.sort.data = tag
         if tag != 'Все вопросы':
@@ -251,10 +272,9 @@ def index(my_quests, tag):
     else:
         sorted_questions = questions.copy()
         tag = 'none'
+    current_user = User.query.filter_by(id=session.get('user_id')).first()
     if my_quests:
-        if session.get('username'):
-            print(session.get('user_id'))
-            status = User.query.filter_by(id=session.get('user_id')).first().status
+        if session.get('user_id'):
             return render_template("index.html", title='Tetropentada',
                                    my_quests=True, form=form, len=len, tag=tag,
                                    questions=[quest for quest in sorted_questions if
@@ -262,7 +282,7 @@ def index(my_quests, tag):
                                    style=url_for('static', filename='cover.css'),
                                    bootstrap=url_for('static', filename='bootstrap.min.css'),
                                    icon=url_for('static', filename='images/icon.png'),
-                                   status=status, User=User)
+                                   User=User, current_user=current_user)
         return redirect("/sign_in")
     return render_template("index.html", title='Tetropentada', my_quests=False,
                            len=len, tag=tag,
@@ -270,15 +290,14 @@ def index(my_quests, tag):
                            style=url_for('static', filename='cover.css'),
                            bootstrap=url_for('static', filename='bootstrap.min.css'),
                            icon=url_for('static', filename='images/icon.png'),
-                           User=User)
+                           User=User, current_user=current_user)
 
 
 @app.route("/add_question", methods=['POST', 'GET'])
 def add_question():
-    status = User.query.filter_by(id=session.get('user_id')).first().status
     if session.get('username'):
         form = AddQuestionForm()
-        if form.validate_on_submit() and status != 'Забанен':
+        if form.validate_on_submit():
             user = User.query.filter_by(id=session['user_id']).first()
             user.Questions.append(Question(title=form.title.data, content=form.content.data,
                                            user_id=session['user_id'], tag=form.tags.data))
@@ -310,12 +329,13 @@ def profile(id):
             db.session.commit()
             return redirect("/profile/{}".format(id))
         avatar_name = user.avatar
-        status = User.query.filter_by(id=id).first().status
-        return render_template("profile.html", title='Tetropentada',
+        pos = User.query.filter_by(id=id).first().pos
+        session_user = User.query.filter_by(id=session['user_id']).first()
+        return render_template("profile.html", title='Tetropentada', User=User, session_user=session_user,
                                style=url_for('static', filename='cover.css'),
                                bootstrap=url_for('static', filename='bootstrap.min.css'),
-                               form=form, user=user, status=status,
-                               icon=url_for('static', filename='images/icon.png'), User=User,
+                               form=form, user=user, status=get_status(pos),
+                               icon=url_for('static', filename='images/icon.png'),
                                avatar=url_for('static', filename='avatars/{}'.format(avatar_name)))
     return redirect("/sign_in")
 
@@ -323,16 +343,18 @@ def profile(id):
 @app.route("/single_question/<int:id>", methods=['POST', 'GET'])
 def single_question(id):
     form = AnswerQuestionForm()
-    status = User.query.filter_by(id=id).first().status
     if form.validate_on_submit():
         if session.get('username'):
-            user = User.query.filter_by(id=session['user_id']).first()
-            question = Question.query.filter_by(id=id).first()
-            answer = Answer(content=form.content.data,
-                            user_id=session['user_id'], best=0, question_id=id)
-            user.Answers.append(answer)
-            question.Answers.append(answer)
-            db.session.commit()
+            pos = User.query.filter_by(id=session['user_id']).first().pos
+            if pos != 3:
+                user = User.query.filter_by(id=session['user_id']).first()
+                question = Question.query.filter_by(id=id).first()
+                answer = Answer(content=form.content.data,
+                                user_id=session['user_id'], best=0, question_id=id)
+                user.Answers.append(answer)
+                question.Answers.append(answer)
+                db.session.commit()
+                return redirect("/single_question/{}".format(id))
             return redirect("/single_question/{}".format(id))
         return redirect("/sign_in")
     question = Question.query.filter_by(id=id).first()
@@ -342,7 +364,7 @@ def single_question(id):
                            author=User.query.filter_by(id=question.user_id).first(),
                            form=form, User=User, answers=answers,
                            answers_list=sorted(answers, key=lambda x: x.best, reverse=True),
-                           style=url_for('static', filename='cover.css'), status=status,
+                           style=url_for('static', filename='cover.css'),
                            bootstrap=url_for('static', filename='bootstrap.min.css'),
                            icon=url_for('static', filename='images/icon.png'))
 
@@ -385,4 +407,57 @@ def bad_answer(user_id, quest_id, answer_id, set):
     return redirect("/single_question/{}".format(quest_id))
 
 
-app.run(port=8080, host='127.0.0.1')
+@app.route("/set_user_position/<int:user_id>/<int:pos>")
+def set_user_position(user_id, pos):
+    User.query.filter_by(id=user_id).first().pos = pos
+    db.session.commit()
+    if session['user_id'] == 0:
+        return redirect("/requests")
+    return redirect("/index/0/none")
+
+
+@app.route("/set_ban_status/<int:user_id>/<int:pos>")
+def set_ban_status(user_id, pos):
+    user = User.query.filter_by(id=user_id).first()
+    user.pos = pos
+    if pos == 0:
+        for quest in user.Questions:
+            db.session.delete(quest)
+    db.session.commit()
+    return redirect("/profile/{}".format(user_id))
+
+
+def get_status(pos):
+    if pos == 0:
+        return 'Участник'
+    elif pos == 1:
+        return 'Участник (отправен запрос на модерацию)'
+    elif pos == 2:
+        return 'Модератор'
+    elif pos == 3:
+        return 'Забанен'
+    return 'Супер админ'
+
+
+def send_notification(to, msg):
+    import smtplib
+
+    smtpObj = smtplib.SMTP('smtp.yandex.ru', 587)
+    smtpObj.ehlo()
+    smtpObj.starttls()
+
+    from_ = "mark.2406@yandex.ru"
+
+    smtpObj.login(from_, 'Mark.240607777777sssssss')
+    msg = "\r\n".join((
+        "From: %s" % from_,
+        "To: %s" % to,
+        "Subject: %s" % "Вы получили ответ на свой вопрос",
+        "",
+        msg
+    ))
+    smtpObj.sendmail(from_, to, msg)
+    smtpObj.quit()
+
+
+app.run(port=8080, host='127.0.0.1', debug=True)

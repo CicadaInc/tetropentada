@@ -19,6 +19,12 @@
 
 {% block cover_container %}
 <div class="container">
-	Here will be list of requests...
+	{% for user in users %}
+        <div class="alert alert-success" role="alert">
+            <a href="/profile/{{ user.id }}">{{ user.username }}</a><br>
+            <a href="set_user_position/{{ user.id }}/2">Принять</a>
+            <a href="set_user_position/{{ user.id }}/0">Отклонить</a>
+        </div>
+    {% endfor %}
 </div>
 {% endblock %}
