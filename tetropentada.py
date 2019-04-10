@@ -105,7 +105,7 @@ class SearchAndSort(FlaskForm):
     search = StringField()
     submit = SubmitField('Найти')
     sort = SelectField(choices=TAGS)
-    checkbox = BooleanField('Умная сортировка')
+    smart_search = BooleanField()
     submit_for_sort = SubmitField('Отсортировать по категории')
 
 
@@ -219,61 +219,51 @@ def registration():
                            icon=url_for('static', filename='images/icon.png'))
 
 
+def get_sorted_questions(tag):
+    questions = Question.query.all()
+
+    if tag != 'Все вопросы':
+        sorted_questions = []
+        for quest in questions:
+            if quest.tag == tag:
+                sorted_questions.append(quest)
+    else:
+        sorted_questions = questions.copy()
+    return sorted_questions
+
+
+def get_search_results(questions, search, lsa):
+    sorted_questions = questions.copy()
+    if lsa:
+        try:
+            sorted_titles = LSA(search,
+                                [question.title for question in questions]).main()
+            sorted_questions = sorted(questions,
+                                      key=lambda question: sorted_titles.index(question.title))
+        except:
+            pass
+    else:
+        for quest in questions:
+            if str(search).upper() in str(quest.title).upper() or str(search).upper() in str(quest.content).upper():
+                sorted_questions.append(quest)
+    return sorted_questions
+
+
 @app.route("/index/<int:my_quests>/<tag>", methods=['POST', 'GET'])
 def index(my_quests, tag):
     form = SearchAndSort()
-    questions = Question.query.all()
 
     if form.validate_on_submit():
-        if form.checkbox.data:
-            tag = form.sort.data
-            if tag != 'Все вопросы':
-                sorted_questions = []
-                for quest in questions:
-                    if quest.tag == tag:
-                        sorted_questions.append(quest)
-            else:
-                sorted_questions = questions.copy()
-            try:
-                sorted_titles = LSA(form.search.data,
-                                    [question.title for question in sorted_questions]).main()
-                sorted_questions = sorted(sorted_questions,
-                                          key=lambda question: sorted_titles.index(question.title))
-            except:
-                pass
+        tag = form.search.data
+        if form.smart_search.data:
+            sorted_questions = get_search_results(get_sorted_questions(form.sort.data), tag, True)
         else:
-            search = form.search.data
-            tag = form.sort.data
-            if tag != 'Все вопросы':
-                sorted_questions = []
-                for quest in questions:
-                    if quest.tag == tag:
-                        sorted_questions.append(quest)
-            else:
-                sorted_questions = []
-                print(questions)
-                for quest in questions:
-                    if str(search).upper() in str(quest.title).upper() or str(search).upper() in str(
-                            quest.content).upper():
-                        sorted_questions.append(quest)
-            try:
-                sorted_titles = LSA(form.search.data,
-                                    [question.title for question in sorted_questions]).main()
-                sorted_questions = sorted(sorted_questions,
-                                          key=lambda question: sorted_titles.index(question.title))
-            except:
-                pass
+            sorted_questions = get_search_results(get_sorted_questions(form.sort.data), tag, False)
     elif tag != 'none':
         form.sort.data = tag
-        if tag != 'Все вопросы':
-            sorted_questions = []
-            for quest in questions:
-                if quest.tag == tag:
-                    sorted_questions.append(quest)
-        else:
-            sorted_questions = questions.copy()
+        sorted_questions = get_sorted_questions(form.sort.data)
     else:
-        sorted_questions = questions.copy()
+        sorted_questions = Question.query.all().copy()
         tag = 'none'
     current_user = User.query.filter_by(id=session.get('user_id')).first()
     if my_quests:
