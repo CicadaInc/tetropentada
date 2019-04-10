@@ -25,7 +25,7 @@
     <form role="form" method="post">
         {{ form.hidden_tag() }}
         {{ form.search(class_="form-control", placeholder="Поиск") }}
-        <p>Умный поиск: {{ form.smart_search }}</p>
+        <p>Умный поиск (beta): {{ form.smart_search }}</p>
         <h4>Сортировка: выберите категорию</h4>
         {{ form.sort(class_="form-control") }}
         {{ form.submit(class_="btn btn-lg btn-success btn-block") }}

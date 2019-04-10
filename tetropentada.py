@@ -243,8 +243,9 @@ def get_search_results(questions, search, lsa):
         except:
             pass
     else:
+        sorted_questions = []
         for quest in questions:
-            if str(search).upper() in str(quest.title).upper() or str(search).upper() in str(quest.content).upper():
+            if search.lower() in quest.title.lower():
                 sorted_questions.append(quest)
     return sorted_questions
 
@@ -254,11 +255,12 @@ def index(my_quests, tag):
     form = SearchAndSort()
 
     if form.validate_on_submit():
-        tag = form.search.data
+        tag = form.sort.data
         if form.smart_search.data:
-            sorted_questions = get_search_results(get_sorted_questions(form.sort.data), tag, True)
+            sorted_questions = get_search_results(get_sorted_questions(form.sort.data), form.search.data, True)
         else:
-            sorted_questions = get_search_results(get_sorted_questions(form.sort.data), tag, False)
+            sorted_questions = get_search_results(get_sorted_questions(form.sort.data), form.search.data, False)
+        form.search.data = ''
     elif tag != 'none':
         form.sort.data = tag
         sorted_questions = get_sorted_questions(form.sort.data)
@@ -347,6 +349,7 @@ def single_question(id):
                 user.Answers.append(answer)
                 question.Answers.append(answer)
                 db.session.commit()
+
                 question = Question.query.filter_by(id=answer.question_id).first()
                 user1 = User.query.filter_by(id=question.user_id).first()
                 send_notification(user1.mail,
