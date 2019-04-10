@@ -8,6 +8,9 @@ from wtforms import StringField, PasswordField, SubmitField, TextAreaField, \
     SelectField, BooleanField
 from wtforms.validators import DataRequired, Email
 from wtforms.fields.html5 import EmailField
+import smtplib
+from email.mime.text import MIMEText
+from email.header import Header
 import os
 
 app = Flask(__name__)
@@ -218,7 +221,6 @@ def registration():
 
 @app.route("/index/<int:my_quests>/<tag>", methods=['POST', 'GET'])
 def index(my_quests, tag):
-
     form = SearchAndSort()
     questions = Question.query.all()
 
@@ -251,7 +253,8 @@ def index(my_quests, tag):
                 sorted_questions = []
                 print(questions)
                 for quest in questions:
-                    if str(search).upper() in str(quest.title).upper() or str(search).upper() in str(quest.content).upper():
+                    if str(search).upper() in str(quest.title).upper() or str(search).upper() in str(
+                            quest.content).upper():
                         sorted_questions.append(quest)
             try:
                 sorted_titles = LSA(form.search.data,
@@ -354,6 +357,12 @@ def single_question(id):
                 user.Answers.append(answer)
                 question.Answers.append(answer)
                 db.session.commit()
+                question = Question.query.filter_by(id=answer.question_id).first()
+                user1 = User.query.filter_by(id=question.user_id).first()
+                send_notification(user1.mail,
+                                  "Пользователь {} дал ответ на ваш вопрос \"{}\"\n\n{}".format(user1.username,
+                                                                                                question.title,
+                                                                                                answer.content))
                 return redirect("/single_question/{}".format(id))
             return redirect("/single_question/{}".format(id))
         return redirect("/sign_in")
@@ -440,24 +449,20 @@ def get_status(pos):
 
 
 def send_notification(to, msg):
-    import smtplib
-
     smtpObj = smtplib.SMTP('smtp.yandex.ru', 587)
     smtpObj.ehlo()
     smtpObj.starttls()
 
     from_ = "mark.2406@yandex.ru"
-
     smtpObj.login(from_, 'Mark.240607777777sssssss')
-    msg = "\r\n".join((
-        "From: %s" % from_,
-        "To: %s" % to,
-        "Subject: %s" % "Вы получили ответ на свой вопрос",
-        "",
-        msg
-    ))
-    smtpObj.sendmail(from_, to, msg)
+
+    msg = MIMEText(msg, 'plain', 'utf-8')
+    msg['Subject'] = Header('Вы получили ответ на свой вопрос', 'utf-8')
+    msg['From'] = from_
+    msg['To'] = to
+
+    smtpObj.sendmail(from_, to, msg.as_string())
     smtpObj.quit()
 
 
-app.run(port=8080, host='127.0.0.1', debug=True)
+app.run(port=8080, host='127.0.0.1')
