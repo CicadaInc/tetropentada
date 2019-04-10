@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block nav %}
+
+{% if session.get('user_id') == 0 %}
+    <li><a href="/requests">Запросы</a></li>
+{% endif %}
+
+<li><a href="/main">Главная</a></li>
+<li class="active"><a href="/index/0/none">Вопрос - ответ</a></li>
+{% if session.get('username') %}
+    <li><a href="/profile/{{ session['user_id'] }}">{{ session.get('username') }}</a></li>
+    <li><a href="/sign_out">Выход</a></li>
+{% else %}
+    <li><a href="/registration">Регистрация</a></li>
+    <li><a href="/sign_in">Вход</a></li>
+{% endif %}
+{% endblock %}
+
+{% block cover_container %}
+<div class="container">
+    {% if current_user.pos == 0 %}
+        <a href="/set_user_position/{{ session['user_id'] }}/1">Подать запрос на модерацию</a>
+    {% endif %}
+    <form role="form" method="post">
+        {{ form.hidden_tag() }}
+        {{ form.search(class_="form-control", placeholder="Поиск") }}
+        <p>Умный поиск (beta): {{ form.smart_search }}</p>
+        <h4>Сортировка: выберите категорию</h4>
+        {{ form.sort(class_="form-control") }}
+        {{ form.submit(class_="btn btn-lg btn-success btn-block") }}
+    </form>
+</div>
+<div class="container">
+    <div class="add-question-button">
+        {% if current_user.pos != 3 %}
+            <a class="btn btn-primary" href="/add_question" role="button">Добавить вопрос</a><br><br>
+            {% if my_quests %}
+                <a class="btn btn-primary" href="/index/0/{{ tag }}" role="button">Все вопросы</a>
+            {% else %}
+                <a class="btn btn-primary" href="/index/1/{{ tag }}" role="button">Мои вопросы</a>
+            {% endif %}
+        {% endif %}
+    </div>
+    {% for quest in questions %}
+        <p>
+            <div class="text-question">
+                <a href="/single_question/{{ quest.id }}">{{ quest.title }}</a>
+                {% if my_quests %}
+                    <a href="/index/1/{{ quest.tag }}">
+                        <span class="badge badge-primary">{{ quest.tag }}</span>
+                    </a>
+                {% else %}
+                    <a href="/index/0/{{ quest.tag }}">
+                        <span class="badge badge-primary">{{ quest.tag }}</span>
+                    </a>
+                {% endif %}
+            </div>
+            <div class="count-answers">Ответов: {{ len(quest.Answers) }}</div>
+            {% if my_quests or session['user_id'] == 0 or current_user.pos == 2 %}
+                <div class="delete-question">
+                    <a href="/delete_question/{{ quest.id }}">Удалить вопрос</a>
+                </div>
+            {% endif %}
+    {% endfor %}
+</div>
+{% endblock %}
