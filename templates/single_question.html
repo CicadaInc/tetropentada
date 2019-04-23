@@ -21,7 +21,7 @@
             {{ author.username }}
         </a>
         <a href="/index/0/{{ question.tag }}"><span class="badge badge-primary">{{ question.tag }}</span></a>
-        {{ question.date_time[:-10] }}
+        <div class="time-question" style="font-size: 15px;">{{ question.date_time[:-10] }}</div>
     </div>
     <h1>{{ question.title }}</h1>
     <h4>{{ question.content }}</h4><br>
@@ -35,7 +35,7 @@
                             height="30" width="30">
                         {{ User.query.filter_by(id=answer.user_id).first().username }}
                     </a>
-                    {{ answer.date_time[:-10] }}
+                    <div class="time-question">{{ answer.date_time[:-10] }}</div>
                     {% if author.username == session['username'] and User.query.filter_by(id=answer.user_id).first().id != session['user_id'] %}
                         {% if answers.filter_by(best=1).all() %}
                             {% if answer.best == 1 %}

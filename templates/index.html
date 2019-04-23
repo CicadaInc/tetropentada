@@ -55,6 +55,7 @@
                         <span class="badge badge-primary">{{ quest.tag }}</span>
                     </a>
                 {% endif %}
+                <div class="time-question">{{ quest.date_time[:-10] }}</div>
             </div>
             <div class="count-answers">Ответов: {{ len(quest.Answers) }}</div>
             {% if my_quests or session['user_id'] == 0 or current_user.pos == 2 %}

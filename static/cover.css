@@ -277,6 +277,11 @@ input {
   color: rgba(255,255,255,.5);
 }
 
+.time-question {
+  color: grey;
+  font-size: 14px;
+  padding-left: 35px;
+}
 
 /*
  * Affix and center
