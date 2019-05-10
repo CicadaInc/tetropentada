@@ -172,6 +172,7 @@ def sign_in():
     if form.validate_on_submit():
         username = form.username.data
         password = form.password.data
+        print(User.query.filter_by(id=0).first().password)
         user = User.query.filter_by(username=username).filter_by(
             password=password).first()
         if user:
@@ -220,7 +221,8 @@ def registration():
                                    bootstrap=url_for('static',
                                                      filename='bootstrap.min.css'),
                                    icon=url_for('static',
-                                                filename='images/icon.png'))
+                                                filename='images/icon.png'),
+                                   User=User)
         if User.query.filter_by(username=username).first():
             return render_template("wrong_registration.html",
                                    title='Tetropentada', form=form,
@@ -272,7 +274,7 @@ def index(my_quests, tag):
         tag = 'none'
     current_user = User.query.filter_by(id=session.get('user_id')).first()
     if my_quests:
-        if session.get('user_id'):
+        if session.get('user_id') or session.get('user_id') == 0:
             return render_template("index.html", title='Tetropentada',
                                    my_quests=True, form=form, len=len, tag=tag,
                                    questions=[quest for quest in
@@ -485,7 +487,10 @@ def send_notification(to, msg):
     msg['From'] = from_
     msg['To'] = to
 
-    smtpObj.sendmail(from_, to, msg.as_string())
+    try:
+        smtpObj.sendmail(from_, to, msg.as_string())
+    except:
+        pass
     smtpObj.quit()
 
 
