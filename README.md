@@ -2,7 +2,7 @@
 ****
 #### _Создатели:_
 * [kuzdman](https://github.com/kuzdman) (Дмитрий Кузнецов)
-* [Glander13](https://github.com/Glander13) (Чебыкин Иван)
+* [Glander13](https://github.com/Glander13) (Иван Чебыкин)
 * [SophIren](https://github.com/SophIren) (Марк Шкут)
 ****
 _Tetropentada_ - это проект, посвященный теме серверов.
